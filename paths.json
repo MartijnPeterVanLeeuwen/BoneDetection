@@ -1,4 +1,0 @@
-{   "Path_to_storage": "/home/mleeuwen/Plot_folder/test_MP_Method",
-    "Path_to_input_CT": "/home/mleeuwen/Plot_folder/Rib_image",
-    "Path_to_abnormalities": "/home/mleeuwen/Plot_folder/Rib_label",
-    "Path_to_yolo_folder": "/home/mleeuwen/Deep learning Models/Total_bone_detector/yolov5"}
