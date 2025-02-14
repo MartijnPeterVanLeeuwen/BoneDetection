@@ -4,4 +4,8 @@ We trained a model on the axial, sagittal, and coronal planes using 3 YOLOv5l mo
 
 With this code, a bone label can be automatically derived when providing a CT scan in combination with a segmentation mask that indicates the voxels of the bone abnormality. 
 
+Documentation on the code provided in this GitHub can be found in this [link](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/documentation/Input_structure.txt)
+
 ![Example_Results](https://github.com/user-attachments/assets/c0578303-38dd-4dc0-be04-b09b631acba3)
+
+
