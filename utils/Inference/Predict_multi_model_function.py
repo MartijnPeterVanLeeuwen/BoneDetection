@@ -187,13 +187,16 @@ def Predict_multi_model_function(Path_to_CT,Path_to_Lesion_label,Name_scan,Path_
 
         f.close()
 
-    Path_to_prediction=os.path.join(Path_to_yolo_folder,"runs/detect")
-    Path_to_yolo_predictions=os.path.join(Path_to_main_folder,"Prediction_yolo")
+    Path_to_prediction=os.path.join(Path_to_yolo_folder,'runs')
+    Path_to_prediction=os.path.join(Path_to_prediction,'detect')
+    Path_to_prediction_destination=os.path.join(Path_to_main_folder,"Prediction_yolo")
 
-    if os.path.isdir(Path_to_yolo_predictions)==False:
-        os.mkdir(Path_to_yolo_predictions)
+    if os.path.isdir(Path_to_prediction_destination)==False:
+        os.mkdir(Path_to_prediction_destination)
 
-    Move_prediction_files(Path_to_prediction,["Predictions_%s_Axial"%Name_scan.split(".")[0],"Predictions_%s_Sagital"%Name_scan.split(".")[0],"Predictions_%s_Coronal"%Name_scan.split(".")[0]],Path_to_yolo_predictions)
+    Move_prediction_files(Path_to_prediction,["Predictions_%s_Axial"%Name_scan.split(".")[0],"Predictions_%s_Sagital"%Name_scan.split(".")[0],"Predictions_%s_Coronal"%Name_scan.split(".")[0]],Path_to_prediction_destination)
 
     shutil.rmtree(Path_to_storage)
+    #shutil.rmtree(Path_to_prediction)
+
 

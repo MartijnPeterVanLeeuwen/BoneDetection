@@ -7,7 +7,8 @@ def Check_storage_dir(Storage_dir,max_experiments=10):
         os.mkdir(Storage_dir)
 
     elif os.path.isdir(Storage_dir+'_1')==False:
-        os.mkdir(Storage_dir+'_1')
+        Storage_dir=Storage_dir+'_1'
+        os.mkdir(Storage_dir)
     else:
         Storage_dir=Storage_dir+'_1'
         search=True

@@ -1,4 +1,4 @@
-{   "Path_to_storage": "C:\\Users\\mleeuwen\\OneDrive - Tilburg University\\Documents\\Result",
-    "Path_to_input_CT": "Users\\mleeuwen\\OneDrive - Tilburg University\\Documents\\Rib_image",
-    "Path_to_abnormalities": "Users\\mleeuwen\\OneDrive - Tilburg University\\Documents\\Rib_label",
-    "Path_to_yolo_folder": "C:\\Users\\mleeuwen\\BoneDetection\\yolov5-master"}
+{   "Path_to_storage": "C:\\Users\\mleeuwen\\Documents\\Results",
+    "Path_to_input_CT": "C:\\Users\\mleeuwen\\OneDrive - Tilburg University\\Documents\\Rib_image",
+    "Path_to_abnormalities": "C:\\Users\\mleeuwen\\OneDrive - Tilburg University\\Documents\\Rib_label"
+    }

@@ -5,8 +5,8 @@ import scipy
 Current_directory = os.getcwd()
 Main_folder = "/".join(Current_directory.split("/")[0:-2])  # Linux
 sys.path.append(Main_folder)
-from CODE_Unet.General_Functions_Preprocessing.Loading_and_saving_data import Data_processing
-from Packages_file import *
+from utils.PreProcessing.Loading_and_saving_data import Data_processing
+from utils.Packages_file import *
 Functions=Data_processing()
 
 

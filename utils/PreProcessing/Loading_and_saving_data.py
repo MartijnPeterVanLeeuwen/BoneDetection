@@ -9,7 +9,7 @@ Current_directory = os.getcwd()
 Main_folder = "/".join(Current_directory.split("/")[0:-2])  # Linux
 sys.path.append(Main_folder)
 
-from Packages_file import *
+from utils.Packages_file import *
 
 class Data_processing():
      

@@ -3,7 +3,6 @@ import argparse
 from utils.Packages_file import *
 from utils.Inference.Move_input_to_yolo_folder import Move_input_to_yolo_folder
 from utils.Inference.Move_input_back import Move_input_back
-from utils.Inference.Move_yolo_prediction import Move_yolo_prediction
 from utils.PostProcessing.Create_prediction_dataframe import Create_prediction_dataframe
 from utils.PreProcessing.Obtain_x_y_z_lesion import Obtain_x_y_z_lesion
 from utils.PostProcessing.Create_lesion_folders import Create_lesion_folders
@@ -27,11 +26,12 @@ parser.add_argument("--Device", help="The selected GPU on which will be used dur
 parser.add_argument("--Flip_input", type=int, help="Flip the input axes",default=False)
 parser.add_argument("--Rotate_input", type=int, help="Rotate the the input 90 degrees, the variable should indicate the number of times the input data should be rotated",default=0)
 parser.add_argument("--IoU", type=float, help="IoU argument passed into YOLOs inference method",default=0.75)
-parser.add_argument("--Minimal_TH", type=float, help="All predictions below this bounding box will be removed",defaulNot=0.75)
+parser.add_argument("--Minimal_TH", type=float, help="All predictions below this bounding box will be removed",default=0.75)
 parser.add_argument("--Slices", type=int, help="The number of slices per plane on which you want to run inference",default=3)
 parser.add_argument("--Dont_save_prediction_images", help="Indicate if the png predictions made by YOLOv5 should be stored",action='store_true')
 parser.add_argument("--No_inference", help="Indicate if want to run the inference, or if you want to change the post-processing of the model output",action='store_true')
 parser.add_argument("--Mute", help="Indicate if want to mute printing of statements during execution of the script",action='store_true')
+parser.add_argument("--Remove_2D_bone_overview", help="Indicate if you dont want to include a 2D bone overview ",action='store_true')
 
 # Parse arguments
 args = parser.parse_args()
@@ -55,10 +55,10 @@ if __name__ == "__main__":
         if args.Mute==False:
            print("======================== Storage folder created  ======================== ")
 
-
     Patient_ID=args.Scan_name.split('.nii')[0]
 
-    path_to_bone_types=os.path.join(current_wd,'utils/Desired_labels.txt')
+    path_to_utils=os.path.join(current_wd,'utils')
+    path_to_bone_types=os.path.join(path_to_utils,'Desired_labels.txt')
 
     path_to_segmentations=paths['Path_to_abnormalities']
 
@@ -75,8 +75,9 @@ if __name__ == "__main__":
            start_time=time.time()
 
         Path_to_weights=os.path.join(current_wd,'weights')
+        Path_to_yolo_folder=os.path.join(path_to_utils,'Model')
 
-        Predict_multi_model_function(paths["Path_to_input_CT"],paths['Path_to_abnormalities'] , args.Scan_name, paths["Path_to_yolo_folder"],
+        Predict_multi_model_function(paths["Path_to_input_CT"],paths['Path_to_abnormalities'] , args.Scan_name,Path_to_yolo_folder,
                             Patient_ID, patient_folder, Path_to_weights=Path_to_weights,Total_number_of_slices=args.Slices, GPU=args.Device,
                             L=400, W=1800,IOU_threshold=args.IoU, Dont_save_prediction_images=args.Dont_save_prediction_images,
                             rotation=args.Rotate_input, flip=args.Flip_input)
@@ -95,7 +96,8 @@ if __name__ == "__main__":
 
     Affected_bones,Summary_dict=Obtain_single_label(path_to_bone_types, patient_folder,TH=args.Minimal_TH)
 
-    Create_2D_bone_overview(Affected_bones,current_wd,"Bone_atlas.nii",patient_folder)
+    if args.Remove_2D_bone_overview==False:
+        Create_2D_bone_overview(Affected_bones,current_wd,"Bone_atlas.nii",patient_folder)
 
     Create_summary_results(Summary_dict,patient_folder)
 
