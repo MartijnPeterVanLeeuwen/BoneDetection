@@ -6,7 +6,10 @@ import numpy as np
 import json
 from utils.PostProcessing.Return_label_functions import Return_label_dict
 
-def Obtain_single_label(Path_to_desired_labels,Path_to_patient,TH=False):
+def Obtain_single_label(Path_to_desired_labels,Path_to_patient,Path_to_neighbour_dict,TH=False):
+
+    with open(Path_to_neighbour_dict, 'r') as file:
+        Neighbouring_dict = json.load(file)
 
     dictionary=Return_label_dict(Path_to_desired_labels)
     reversed_dict = {v: k for k, v in dictionary.items()}
@@ -19,6 +22,7 @@ def Obtain_single_label(Path_to_desired_labels,Path_to_patient,TH=False):
     Missed=0
     Summary_dict={}
     Detected_labels=[]
+    Neighbouring_bones=[]
 
     for i in range(len(All_lesions)):
         Lesion_dict={}
@@ -60,7 +64,8 @@ def Obtain_single_label(Path_to_desired_labels,Path_to_patient,TH=False):
             Lesion_dict["Max_label"]=None
             Lesion_dict["All_Labels"]=[]
             Lesion_dict["All_no_occurences"]=[]
-            Missed+=1
+            Lesion_dict['Neighbours_max_pred']=[]
+
 
         else:
             Max_pred=np.argmax(Occurences)
@@ -69,8 +74,14 @@ def Obtain_single_label(Path_to_desired_labels,Path_to_patient,TH=False):
             Lesion_dict["Max_label"]=reversed_dict[Output.astype(float)]
             Lesion_dict["All_Labels"]=[reversed_dict[i.astype(float)] for i in Unique_labels]
             Lesion_dict["All_no_occurences"]=Occurences
+
+            Neighbour_bone_keys=Neighbouring_dict[str(Output)]
+            if "Acceptable" in list(Neighbour_bone_keys.keys()):
+                Lesion_dict['Neighbours_max_pred']=Neighbouring_dict[str(Output)]['Acceptable']
+                Neighbouring_bones=Neighbouring_bones+Neighbouring_dict[str(Output)]['Acceptable']
+
             Detected_labels.append(Output)
 
         Summary_dict[All_lesions[i]]=Lesion_dict
 
-    return Detected_labels,Summary_dict
+    return Detected_labels,Neighbouring_bones,Summary_dict

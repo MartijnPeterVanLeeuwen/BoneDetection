@@ -93,11 +93,11 @@ if __name__ == "__main__":
            print("======================== Ended Inference in %s minutes  ======================== "%duration)
 
 
-
-    Affected_bones,Summary_dict=Obtain_single_label(path_to_bone_types, patient_folder,TH=args.Minimal_TH)
+    Path_to_neighbouring_files=os.path.join(current_wd,'utils','Neighbour_file.json')
+    Affected_bones,Neighbouring_bones,Summary_dict=Obtain_single_label(path_to_bone_types, patient_folder,Path_to_neighbouring_files,TH=args.Minimal_TH)
 
     if args.Remove_2D_bone_overview==False:
-        Create_2D_bone_overview(Affected_bones,current_wd,"Bone_atlas.nii",patient_folder)
+        Create_2D_bone_overview(Affected_bones,Neighbouring_bones,current_wd,"Bone_atlas.nii",patient_folder)
 
     Create_summary_results(Summary_dict,patient_folder)
 
