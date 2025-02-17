@@ -8,11 +8,15 @@ Main_folder = "/".join(Current_directory.split("/")[0:-2])  # Linux
 sys.path.append(Main_folder)
 from utils.PreProcessing.Loading_and_saving_data import Data_processing
 from utils.Packages_file import *
+from utils.PostProcessing.Return_label_functions import Return_label_dict
 Functions=Data_processing()
 
 
-def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_labels,file,storage_dir,Exclude_Costal_Cartlidge=True,
+def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_labels,Path_to_all_bones,file,storage_dir,Exclude_Costal_Cartlidge=True,
                              Visualize_neighbouring_bones=True):
+
+    Label_dict=Return_label_dict(Path_to_all_bones)
+    Reversed_label_dict= {v: k for k, v in Label_dict.items()}
 
     Label,Header=Functions.Loading_Nifti_data(Path_to_bone_labels,file,Mute=True)
     Swapped_lab=np.rot90(np.swapaxes(Label[0],0,1),1,axes=(1,2))
@@ -25,20 +29,38 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
     empty_vol=np.zeros(Swapped_lab.shape)
     Neighbouring_bone_map=np.zeros(Swapped_lab.shape)
 
+    centroid_affected_bones=[]
+
     for i in range(len(Affected_bones)):
-        empty_vol[np.where(Swapped_lab==Affected_bones[i])]+=0.33
+        coordinates=np.where(Swapped_lab==Affected_bones[i])
+        average_coordinate=list(np.round(np.mean(coordinates,axis=1)).astype(int))
+        average_coordinate.append(Affected_bones[i])
+        centroid_affected_bones.append(average_coordinate)
+        empty_vol[coordinates]+=0.33
+
+    sorted_centroids = sorted(centroid_affected_bones, key=lambda x: x[1])
+
+    init=0
+    min_distance=20
+    for i in range(len(sorted_centroids)):
+        slice_distance=sorted_centroids[i][1]-init
+        if slice_distance<min_distance:
+            sorted_centroids[i][1]+=min_distance-slice_distance
+        init=sorted_centroids[i][1]
 
     Only_neigbouring=np.zeros(empty_vol.shape)
     Only_neigbouring[np.where(empty_vol==0)]=1
 
     for i in range(len(Neighbouring_bones)):
-        Neighbouring_bone_map[np.where(Swapped_lab==Neighbouring_bones[i])]+=0.33
+        coordinates=np.where(Swapped_lab==Neighbouring_bones[i])
+        Neighbouring_bone_map[coordinates]+=0.33
+
     Neighbouring_bone_map=Neighbouring_bone_map*Only_neigbouring
 
     Swapped_label_copy=copy.copy(Swapped_lab)
     Flip=False
 
-    fig,ax=plt.subplots(2,2,figsize=(5,9),dpi=300)
+    fig,ax=plt.subplots(2,2,figsize=(6,9),dpi=300)
 
     for iii in range(2):
 
@@ -50,11 +72,11 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
             if ii ==1:
 
                 if iii==1:
-                    min_scalar=0.48
+                    min_scalar=0.45
                     max_scalar=1
                 else:
                     min_scalar=1
-                    max_scalar=0.48
+                    max_scalar=0.45
 
                 Degrading_map=np.ones(np.rot90(bone_masks,1,axes=(0,2)).shape)
                 degrading_scalar=np.linspace(min_scalar,max_scalar,np.rot90(bone_masks,1,axes=(0,2)).shape[0])
@@ -68,7 +90,7 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
             else:
                 if iii==0:
-                    min_scalar=0.65
+                    min_scalar=0.6
                     max_scalar=1
                 else:
                     min_scalar=1
@@ -98,6 +120,40 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
             if Visualize_neighbouring_bones==False:
                 selection_neighbouring_mask=0
+
+            selection_bone_mask=selection_bone_mask*1.25
+
+            margin=50
+
+            start_point_left=-150
+            start_point_right=complete_bone_mask.shape[1]+10
+
+            for k in sorted_centroids:
+
+                if ii==0:
+                    if iii==0:
+                        start=k[2]
+                    else:
+                        start=complete_bone_mask.shape[1]-k[2]
+
+                    bone_label=Reversed_label_dict[k[-1]]
+                    letters=len(bone_label)
+                    current_sp=start_point_left-letters-margin
+
+                    ax[iii,ii].hlines(k[1], xmin=start_point_left, xmax=start,linestyles='dotted')
+                    ax[iii,ii].text(start_point_left,k[1],bone_label,fontsize=7,color='black')
+
+                else:
+                    if iii==0:
+                        start=k[0]
+                    else:
+                        start=complete_bone_mask.shape[1]-k[0]
+
+                    bone_label=Reversed_label_dict[k[-1]]
+                    letters=len(bone_label)
+                    current_sp=start_point_left-letters-margin
+                    ax[iii,ii].hlines(k[1], xmin=start, xmax=start_point_right,linestyles='dotted')
+                    ax[iii,ii].text(start_point_right,k[1],bone_label,fontsize=7,color='black')
 
             Complete_overview[:,:,0]=complete_bone_mask
             Complete_overview[:,:,1]=complete_bone_mask-selection_bone_mask-0.4*selection_neighbouring_mask
