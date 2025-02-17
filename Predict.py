@@ -58,6 +58,7 @@ if __name__ == "__main__":
     Patient_ID=args.Scan_name.split('.nii')[0]
 
     path_to_utils=os.path.join(current_wd,'utils')
+
     path_to_bone_types=os.path.join(path_to_utils,'Desired_labels.txt')
 
     path_to_segmentations=paths['Path_to_abnormalities']
@@ -93,11 +94,13 @@ if __name__ == "__main__":
            print("======================== Ended Inference in %s minutes  ======================== "%duration)
 
 
+    Path_to_label_translation_dict=os.path.join(current_wd,'utils','Bone_labels_pov_patient.json')
+
     Path_to_neighbouring_files=os.path.join(current_wd,'utils','Neighbour_file.json')
     Affected_bones,Neighbouring_bones,Summary_dict=Obtain_single_label(path_to_bone_types, patient_folder,Path_to_neighbouring_files,TH=args.Minimal_TH)
 
     if args.Remove_2D_bone_overview==False:
-        Create_2D_bone_overview(Affected_bones,Neighbouring_bones,current_wd,path_to_bone_types,"Bone_atlas.nii",patient_folder)
+        Create_2D_bone_overview(Affected_bones,Neighbouring_bones,current_wd,path_to_bone_types,patient_folder,Path_to_transformation_dict=Path_to_label_translation_dict)
 
     Create_summary_results(Summary_dict,patient_folder)
 

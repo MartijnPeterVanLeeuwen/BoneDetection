@@ -9,20 +9,30 @@ sys.path.append(Main_folder)
 from utils.PreProcessing.Loading_and_saving_data import Data_processing
 from utils.Packages_file import *
 from utils.PostProcessing.Return_label_functions import Return_label_dict
+
 Functions=Data_processing()
 
 
-def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_labels,Path_to_all_bones,file,storage_dir,Exclude_Costal_Cartlidge=True,
-                             Visualize_neighbouring_bones=True):
+def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_labels,Path_to_all_bones,storage_dir,Exclude_Costal_Cartlidge=False,
+                             Visualize_neighbouring_bones=True,Path_to_transformation_dict=None):
+
+
+    if Path_to_transformation_dict!=None:
+        with open(Path_to_transformation_dict, 'r') as file:
+            Label_transformation_dict = json.load(file)
+        file.close()
 
     Label_dict=Return_label_dict(Path_to_all_bones)
     Reversed_label_dict= {v: k for k, v in Label_dict.items()}
 
-    Label,Header=Functions.Loading_Nifti_data(Path_to_bone_labels,file,Mute=True)
+    Label,Header=Functions.Loading_Nifti_data(Path_to_bone_labels,"Bone_atlas.nii",Mute=True)
     Swapped_lab=np.rot90(np.swapaxes(Label[0],0,1),1,axes=(1,2))
 
     if Exclude_Costal_Cartlidge==True:
         Swapped_lab[np.where(Swapped_lab==3)]=0
+    else:
+        Swapped_lab[np.where(Swapped_lab==3)]=0.05
+
 
     bone_masks=np.zeros((Swapped_lab.shape))
 
@@ -72,11 +82,11 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
             if ii ==1:
 
                 if iii==1:
-                    min_scalar=0.45
+                    min_scalar=0.35
                     max_scalar=1
                 else:
                     min_scalar=1
-                    max_scalar=0.45
+                    max_scalar=0.35
 
                 Degrading_map=np.ones(np.rot90(bone_masks,1,axes=(0,2)).shape)
                 degrading_scalar=np.linspace(min_scalar,max_scalar,np.rot90(bone_masks,1,axes=(0,2)).shape[0])
@@ -90,7 +100,7 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
             else:
                 if iii==0:
-                    min_scalar=0.6
+                    min_scalar=0.5
                     max_scalar=1
                 else:
                     min_scalar=1
@@ -121,51 +131,65 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
             if Visualize_neighbouring_bones==False:
                 selection_neighbouring_mask=0
 
-            selection_bone_mask=selection_bone_mask*1.25
+            selection_bone_mask=selection_bone_mask*1.75
 
             margin=50
 
-            start_point_left=-150
+            start_point_left=-125
             start_point_right=complete_bone_mask.shape[1]+10
+            Unique_label_detections=np.unique(Affected_bones)
+            Processed_labels=[]
+            
+            for j in range(len(Unique_label_detections)):
+                No_counts=0
 
-            for k in sorted_centroids:
+                k=sorted_centroids[j]
 
-                if ii==0:
-                    if iii==0:
-                        start=k[2]
-                    else:
-                        start=complete_bone_mask.shape[1]-k[2]
+                if k[-1] not in Processed_labels:
 
+                    Processed_labels.append(k[-1])
                     bone_label=Reversed_label_dict[k[-1]]
-                    letters=len(bone_label)
-                    current_sp=start_point_left-letters-margin
 
-                    ax[iii,ii].hlines(k[1], xmin=start_point_left, xmax=start,linestyles='dotted')
-                    ax[iii,ii].text(start_point_left,k[1],bone_label,fontsize=7,color='black')
+                    if Path_to_transformation_dict!=None:
+                        bone_label=Label_transformation_dict[bone_label]
 
-                else:
-                    if iii==0:
-                        start=k[0]
+                    No_counts=Affected_bones.count(Unique_label_detections[j])
+                    if No_counts>1:
+                        bone_label=bone_label+' (%sx)'%No_counts
+                    if ii==0:
+                        if iii==0:
+                            start=k[2]
+                        else:
+                            start=complete_bone_mask.shape[1]-k[2]
+
+                        letters=len(bone_label)
+                        current_sp=start_point_left-letters-margin
+
+                        ax[iii,ii].hlines(k[1], xmin=start_point_left, xmax=start,linestyles='dotted')
+                        ax[iii,ii].text(start_point_left,k[1],bone_label,fontsize=7,color='black')
+
                     else:
-                        start=complete_bone_mask.shape[1]-k[0]
+                        if iii==0:
+                            start=k[0]
+                        else:
+                            start=complete_bone_mask.shape[1]-k[0]
 
-                    bone_label=Reversed_label_dict[k[-1]]
-                    letters=len(bone_label)
-                    current_sp=start_point_left-letters-margin
-                    ax[iii,ii].hlines(k[1], xmin=start, xmax=start_point_right,linestyles='dotted')
-                    ax[iii,ii].text(start_point_right,k[1],bone_label,fontsize=7,color='black')
+                        letters=len(bone_label)
+                        current_sp=start_point_left-letters-margin
+                        ax[iii,ii].hlines(k[1], xmin=start, xmax=start_point_right,linestyles='dotted')
+                        ax[iii,ii].text(start_point_right,k[1],bone_label,fontsize=7,color='black')
 
-            Complete_overview[:,:,0]=complete_bone_mask
-            Complete_overview[:,:,1]=complete_bone_mask-selection_bone_mask-0.4*selection_neighbouring_mask
-            Complete_overview[:,:,2]=complete_bone_mask-selection_bone_mask-selection_neighbouring_mask
-            Complete_overview=np.clip(Complete_overview,0,255)
+                Complete_overview[:,:,0]=complete_bone_mask
+                Complete_overview[:,:,1]=complete_bone_mask-selection_bone_mask-0.4*selection_neighbouring_mask
+                Complete_overview[:,:,2]=complete_bone_mask-selection_bone_mask-selection_neighbouring_mask
+                Complete_overview=np.clip(Complete_overview,0,255)
 
-            if Flip:
-                Complete_overview=np.flip(Complete_overview,axis=1)
+                if Flip:
+                    Complete_overview=np.flip(Complete_overview,axis=1)
 
-            ax[iii,ii].imshow(Complete_overview,vmin=0,vmax=1)
+                ax[iii,ii].imshow(Complete_overview,vmin=0,vmax=1)
 
-            ax[iii,ii].axis('off')
+                ax[iii,ii].axis('off')
 
     storage_file=os.path.join(storage_dir,'Affected_Bones.png')
     plt.tight_layout()

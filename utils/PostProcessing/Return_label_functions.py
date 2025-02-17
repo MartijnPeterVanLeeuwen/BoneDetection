@@ -5,7 +5,7 @@ def Return_label_dict(Path_to_desired_labels_txt):
     
     for i in range(len(Labels)):
         Label_dict[Labels[i].split(".")[0]] = i + 1
-    
+
     return Label_dict
 
 def Return_desired_labels(Path_to_label_txt_file):
