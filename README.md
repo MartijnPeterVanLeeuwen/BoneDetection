@@ -13,7 +13,7 @@ This method was designed to identify the locations of bone abnormalities such as
 - Sternum
 - Sacrum
 - Hip 
-- Femur $^2$
+- Femur $^2$ 
 - Costal cartilage
   
 $^1$: Makes a distinction between bone levels,
