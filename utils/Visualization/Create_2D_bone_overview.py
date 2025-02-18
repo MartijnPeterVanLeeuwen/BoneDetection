@@ -13,7 +13,7 @@ from utils.PostProcessing.Return_label_functions import Return_label_dict
 Functions=Data_processing()
 
 
-def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_labels,Path_to_all_bones,storage_dir,Exclude_Costal_Cartlidge=False,
+def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_labels,Path_to_all_bones,storage_dir,Exclude_Costal_Cartlidge=True,
                              Visualize_neighbouring_bones=True,Path_to_transformation_dict=None):
 
 
@@ -33,25 +33,59 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
     else:
         Swapped_lab[np.where(Swapped_lab==3)]=0.05
 
-
     bone_masks=np.zeros((Swapped_lab.shape))
-
     empty_vol=np.zeros(Swapped_lab.shape)
     Neighbouring_bone_map=np.zeros(Swapped_lab.shape)
 
     centroid_affected_bones=[]
 
     for i in range(len(Affected_bones)):
-        coordinates=np.where(Swapped_lab==Affected_bones[i])
-        average_coordinate=list(np.round(np.mean(coordinates,axis=1)).astype(int))
-        average_coordinate.append(Affected_bones[i])
-        centroid_affected_bones.append(average_coordinate)
-        empty_vol[coordinates]+=0.33
+        Approved=False
+        coordinates=np.array(np.where(Swapped_lab==Affected_bones[i]))
+        attempt=0
+        while Approved==False:
+            max_depth=np.argmax(coordinates[0,:])
+
+            Coordinate_intensity_neighbour=Swapped_lab[coordinates[0][max_depth]-3:coordinates[0][max_depth]+3,
+                                            coordinates[1][max_depth]-3:coordinates[1][max_depth]+3,
+                                           coordinates[2][max_depth]-3:coordinates[2][max_depth]+3]
+
+            unique_labels=np.unique(Coordinate_intensity_neighbour)
+            unique_labels=[i for i in unique_labels if i!=0]
+            Counts=[list(Coordinate_intensity_neighbour.flatten()).count(i) for i in unique_labels]
+            Max_label=unique_labels[np.argmax(Counts)]
+
+            if Max_label==Affected_bones[i] and Counts[np.argmax(Counts)]>10:
+                Approved==True
+                break
+            else:
+                coordinates=np.delete(coordinates, (max_depth), axis=1)
+                print('removed')
+                attempt+=1
+            if attempt>100:
+                print('failed to find correct label')
+                break
+            print(Max_label)
+
+        Selected_coordinates=[coordinates[0][max_depth],coordinates[1][max_depth],coordinates[-1][max_depth]]
+        Selected_coordinates.append(Affected_bones[i])
+
+
+        #average_coordinate=np.array(list(np.round(np.mean(coordinates,axis=1)).astype(int)))
+        #All_distances=[np.sqrt((coordinates[0][i]-average_coordinate[0])**2+(coordinates[1][i]-average_coordinate[1])**2+(coordinates[-1][i]-average_coordinate[-1])**2) for i in range(coordinates[0].shape[0])]
+        #minimum_distance=np.argmin(All_distances)
+        #coordinate_intensity=Swapped_lab[coordinates[0][minimum_distance],coordinates[1][minimum_distance],coordinates[-1][minimum_distance]]
+        #Selected_coordinates=[coordinates[0][minimum_distance],coordinates[1][minimum_distance],coordinates[-1][minimum_distance]]
+        #Selected_coordinates.append(Affected_bones[i])
+
+        centroid_affected_bones.append(Selected_coordinates)
+        empty_vol[coordinates[0,:],coordinates[1,:],coordinates[2,:]]+=0.33
 
     sorted_centroids = sorted(centroid_affected_bones, key=lambda x: x[1])
 
     init=0
-    min_distance=20
+    min_distance=0
+
     for i in range(len(sorted_centroids)):
         slice_distance=sorted_centroids[i][1]-init
         if slice_distance<min_distance:
@@ -68,25 +102,29 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
     Neighbouring_bone_map=Neighbouring_bone_map*Only_neigbouring
 
     Swapped_label_copy=copy.copy(Swapped_lab)
-    Flip=False
 
     fig,ax=plt.subplots(2,2,figsize=(6,9),dpi=300)
 
     for iii in range(2):
-
-        if iii>0:
-            Flip=True
-
+        Flip=False
         for ii in range(2):
+
+            if ii==1 and iii==1:
+                iii=0
+            elif ii==1 and iii==0:
+                iii=1
+
+            if (iii==1 and ii==0) or (iii==0 and ii==1):
+                Flip=True
 
             if ii ==1:
 
                 if iii==1:
-                    min_scalar=0.35
-                    max_scalar=1
+                    min_scalar=0.75
+                    max_scalar=-0.5
                 else:
-                    min_scalar=1
-                    max_scalar=0.35
+                    min_scalar=-0.5
+                    max_scalar=0.75
 
                 Degrading_map=np.ones(np.rot90(bone_masks,1,axes=(0,2)).shape)
                 degrading_scalar=np.linspace(min_scalar,max_scalar,np.rot90(bone_masks,1,axes=(0,2)).shape[0])
@@ -100,11 +138,11 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
             else:
                 if iii==0:
-                    min_scalar=0.5
-                    max_scalar=1
+                    min_scalar=0
+                    max_scalar=0.9
                 else:
-                    min_scalar=1
-                    max_scalar=0
+                    min_scalar=0.75
+                    max_scalar=-0.5
 
                 Degrading_map=np.ones(bone_masks.shape)
                 degrading_scalar=np.linspace(min_scalar,max_scalar,bone_masks.shape[0])
@@ -135,12 +173,12 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
             margin=50
 
-            start_point_left=-125
+            start_point_left=-100
             start_point_right=complete_bone_mask.shape[1]+10
             Unique_label_detections=np.unique(Affected_bones)
             Processed_labels=[]
-            
-            for j in range(len(Unique_label_detections)):
+
+            for j in range(len(Affected_bones)):
                 No_counts=0
 
                 k=sorted_centroids[j]
@@ -153,31 +191,47 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
                     if Path_to_transformation_dict!=None:
                         bone_label=Label_transformation_dict[bone_label]
 
-                    No_counts=Affected_bones.count(Unique_label_detections[j])
+                    No_counts=Affected_bones.count(k[-1])
                     if No_counts>1:
                         bone_label=bone_label+' (%sx)'%No_counts
+
                     if ii==0:
+                        make_label=True
                         if iii==0:
                             start=k[2]
+                            if 'left' in bone_label:
+                                make_label=False
                         else:
                             start=complete_bone_mask.shape[1]-k[2]
+                            #start=k[2]
+                            if 'right' in bone_label:
+                                make_label=False
 
                         letters=len(bone_label)
                         current_sp=start_point_left-letters-margin
-
-                        ax[iii,ii].hlines(k[1], xmin=start_point_left, xmax=start,linestyles='dotted')
-                        ax[iii,ii].text(start_point_left,k[1],bone_label,fontsize=7,color='black')
+                        if make_label:
+                            ax[iii,ii].hlines(k[1], xmin=start_point_left, xmax=start,linestyles='dotted')
+                            ax[iii,ii].text(start_point_left,k[1],bone_label,fontsize=5,color='black')
 
                     else:
-                        if iii==0:
+
+                        make_label=True
+                        if iii==1:
                             start=k[0]
+                            if 'right' in bone_label:
+                                make_label=False
                         else:
                             start=complete_bone_mask.shape[1]-k[0]
+                            #start=k[0]
+                            if 'left' in bone_label:
+                                make_label=False
 
                         letters=len(bone_label)
                         current_sp=start_point_left-letters-margin
-                        ax[iii,ii].hlines(k[1], xmin=start, xmax=start_point_right,linestyles='dotted')
-                        ax[iii,ii].text(start_point_right,k[1],bone_label,fontsize=7,color='black')
+
+                        if make_label:
+                            ax[iii,ii].hlines(k[1], xmin=start, xmax=start_point_right,linestyles='dotted')
+                            ax[iii,ii].text(start_point_right,k[1],bone_label,fontsize=5,color='black')
 
                 Complete_overview[:,:,0]=complete_bone_mask
                 Complete_overview[:,:,1]=complete_bone_mask-selection_bone_mask-0.4*selection_neighbouring_mask
@@ -187,9 +241,11 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
                 if Flip:
                     Complete_overview=np.flip(Complete_overview,axis=1)
 
-                ax[iii,ii].imshow(Complete_overview,vmin=0,vmax=1)
-
+                ax[iii,ii].imshow(Complete_overview)
                 ax[iii,ii].axis('off')
+                #ax[iii,ii].plot(k[0],k[1],'x',color='red')
+                #ax[iii,ii].plot(k[2],k[1],'o',color='blue')
+
 
     storage_file=os.path.join(storage_dir,'Affected_Bones.png')
     plt.tight_layout()
