@@ -31,13 +31,13 @@ The code is structured so that there is a specific file [paths.json](https://git
 An example of how such a directory structure looks like is shown below. Note that other formatting types are not recognized and can therefore lead to errors. 
 
 ```sh
-Path_to_input_CT/
+../Path_to_input_CT/
 ├── test_1.nii
 
-Path_to_abnormalities/
+../Path_to_abnormalities/
 ├── test_1.nii
 
-Path_to_storage/
+../Path_to_storage/
 ├── Experiment 
 ├── Experiment_1
 ├── ...
