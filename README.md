@@ -28,7 +28,7 @@ The code is structured so that there is a specific file [paths.json](https://git
 ```sh
 {PROJECT_ID}_{IMGNR}.nii
 ```
-In this format, you use a project ID, followed by an image number. An example structure is shown below.
+An example of how such a directory structure looks like is shown below. Note that other formatting types are not recognized and can therefore lead to errors. 
 
 ```sh
 Path_to_input_CT/
