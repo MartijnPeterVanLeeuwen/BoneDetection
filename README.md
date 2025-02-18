@@ -59,5 +59,13 @@ After cloning the git repository, create a new virtual environment in which you 
 pip install -r /Requirements.txt
 
 ```
-This will install all the required packages. Note that you do not have to separately download the YOLOv5 directory, we have included it in Github in this [folder](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/tree/main/utils/Model). This code was directly downloaded from the original [YOLOv5](https://github.com/ultralytics/yolov5) GitHub.
+This will install all the required packages. Note that you do not have to separately download the YOLOv5 directory, we have included it in Github in this [folder](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/tree/main/utils/Model). This code was directly downloaded from the original [YOLOv5](https://github.com/ultralytics/yolov5) GitHub page.
+
+When the git repository has been cloned, the paths file has been updated, and the input files have been stored correctly, the code can be executed. This can be done by running the following command in the command prompt:
+```
+python Predict.py --Scan_name test_1.nii --Slices 5 --Device CPU --Experiment_name Experiment
+```
+This will start executing the code for scan *"test_1.nii"* and create a folder *"Experiment"* in the *"Path_to_storage"* directory. A description of the other arguments that can be provided to this prediction file are shown below: 
+
+
 
