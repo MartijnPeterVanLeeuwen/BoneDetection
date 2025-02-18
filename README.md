@@ -1,10 +1,10 @@
 # Welcome to the Multiplanar (MP) YOLOv5 Based Bone Identification Method
 
-# What can it do for you? 
+## What can it do for you? 
 
-# What do you need? 
+## What do you need? 
 
-# How to get started? 
+## How to get started? 
 
 This GitHub provides the code to run a multiplaner (MP) YOLOv5-based bone detection model. The intended goal behind this code is to identify the bones in which bone abnormalities are located, in a computationally preserving manner. An alternative to this method is using a segmentation method such as the [nnUnet](https://github.com/MIC-DKFZ/nnUNet). In our paper [link]() we have shown that our method is a competitive alternative to nnUnet and since our method is 2D based, it requires less computational resources.
 
