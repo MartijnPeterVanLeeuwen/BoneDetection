@@ -65,7 +65,7 @@ When the git repository has been cloned, the paths file has been updated, and th
 ```
 python Predict.py --Scan_name test_1.nii --Slices 5 --Device CPU --Experiment_name Experiment
 ```
-This will start executing the code for scan *"test_1.nii"* and create a folder *"Experiment"* in the *"Path_to_storage"* directory. A description of the other arguments that can be provided to this prediction file are shown below: 
+This will start executing the code for scan *"test_1.nii"* and create a folder *"Experiment"* in the *"Path_to_storage"* directory in which all the results will be stored. A description of the other arguments that can be used by this function are described below: 
 
 
 
