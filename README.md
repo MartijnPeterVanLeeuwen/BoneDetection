@@ -13,7 +13,7 @@ This method was designed to identify the locations of bone abnormalities such as
 - Sternum
 - Sacrum
 - Hip 
-- Femur$^2$
+- Femur $^2$
 - Costal cartilage
   
 $^1$: Makes a distinction between bone levels,
@@ -24,7 +24,8 @@ For the ribs and the vertebrae, the method also provides the exact bone level in
 ## What do you need? 
 To execute this code, you do not need expensive hardware, as you can run it on your laptop. However, the process is of course sped up whenever you run it with a GPU. In terms of data, you will need a CT scan in combination with a segmentation mask (of the same size) in which the voxels of the bone abnormality are annotated. 
 
-The code is structured so that there is a specific file [paths.json](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/paths.json) in which you need to specify the location of a folder that contains the CT scans ("Path_to_input_CT"), the folder that contains the segmentation mask ("Path_to_abnormalities") and the directory where you want to results to be outputted to ("Path_to_storage").
+The code is structured so that there is a specific file [paths.json](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/paths.json) in which you need to specify the location of a folder that contains the CT scans (*"Path_to_input_CT"*), the folder that contains the segmentation mask (*"Path_to_abnormalities"*) and the directory where you want to results to be outputted to (*"Path_to_storage"*).
+
 ```sh
 Path_to_input_CT/
 ├── test_1.nii
