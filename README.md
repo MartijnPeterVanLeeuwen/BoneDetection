@@ -43,7 +43,7 @@ An example of how such a directory structure looks like is shown below. Note tha
 ├── ...
 ```
 
-An example of a CT scan and manually created bone abnormality annotations are included in [example_data.zip](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/example_data.zip) This is an example scan that was downloaded from the (TotalSegmenator dataset)[https://zenodo.org/records/10047292]
+An example of a CT scan and manually created bone abnormality annotations are included in [example_data.zip](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/example_data.zip) This is an example scan that was downloaded from the [TotalSegmenator dataset](https://zenodo.org/records/10047292)
 
 Your data must have the same orientation as the data in the example data for the code to properly run. For instance, when running this data on the [RibFrac](https://ribfrac.grand-challenge.org/) you will need to rotate the input data 180 degrees before running the code as the orientation of these scans does not align with the orientation that we use in our code. 
 
