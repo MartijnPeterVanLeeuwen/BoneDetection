@@ -54,10 +54,10 @@ To get started with this code, run the following code
 ```sh
 git clone https://github.com/MartijnPeterVanLeeuwen/BoneDetection.git
 ```
-After cloning the git repository, create a new virtual environment in which you can install the required packages. Upon activating this environment and navigating to the git directory, run the following command. This will install all the required packages. Note that you do not have to separately download the YOLOv5 directory, we have included it in Github in this [folder](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/tree/main/utils/Model). This code was directly downloaded from the original [YOLOv5](https://github.com/ultralytics/yolov5) GitHub.
+After cloning the git repository, create a new virtual environment in which you can install the required packages. Upon activating this environment and navigating to the git directory, run the following command. 
 ```
 pip install -r /Requirements.txt
 
 ```
-
+This will install all the required packages. Note that you do not have to separately download the YOLOv5 directory, we have included it in Github in this [folder](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/tree/main/utils/Model). This code was directly downloaded from the original [YOLOv5](https://github.com/ultralytics/yolov5) GitHub.
 
