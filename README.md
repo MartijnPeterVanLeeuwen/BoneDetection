@@ -133,7 +133,7 @@ The code creates a folder containing several results. This section will discuss 
 The content of the other folders can be found below.
 <details>
 
-<summary>Annotation_info </summary>
+<summary>```Annotation_info``` </summary>
 
 ### Annotation_info
 
