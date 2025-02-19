@@ -96,6 +96,7 @@ This will start executing the code for scan *"test_1.nii"* and create a folder *
 
 ** = To put these arguments in effect, simply add them as arguments to the input data
 
+Note that if you run this code multiple times, it will create new folders called ```Experiment_x``` with x going up to 10 to prevent overwriting previous results. 
 </details>
 
 <details>
@@ -103,6 +104,10 @@ This will start executing the code for scan *"test_1.nii"* and create a folder *
 <summary>Change post-processing parameters </summary>
 
 ### Change prediction parameters without running inference
-asd
+If you have already run the bone detection models but would like to change the post-processing parameters, such as ```--IoU ``` of ```--Minimal_TH ```, you can do so by adding the following inputs:
+```
+python Predict.py --Scan_name test_1.nii --Experiment_name Experiment --Use_existing_folder --No_inference --IoU 0.5 --Minimal_TH 0.5
 
+```
+In this example, the results from the folder ```Experiment``` are used, only now an ```--IoU``` of ```0.5``` and ```--Minimal_TH```of ```0.5``` is used. Make sure that you use the correct ```--Experiment_name``` file. 
 </details>
