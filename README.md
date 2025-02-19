@@ -67,18 +67,18 @@ python Predict.py --Scan_name test_1.nii --Experiment_name Experiment --Device c
 ```
 This will start executing the code for scan *"test_1.nii"* and create a folder *"Experiment"* in the *"Path_to_storage"* directory in which all the results will be stored. A description of the other arguments that this function can use are described below: 
 
-- ``` --Scan_name ```-> The name of the scan and the annotation file on which the code will be applied ``` (no Default)``` 
-- ``` --Experiment_name ```-> The name of the folder in which all the results will be stored (```Default= Experiment```)
-- ``` --Device ```-> CUDA device, i.e., '0' or '0,1,2,3' or 'cpu' (```Default= cpu```)
-- ``` --Slices ```-> Number of slices per plane on which you want to run the models (```Default= 3```)
-- ``` --Rotate_input ```-> Indicate the number of times the input should be rotated 90 degrees (```Default= 0```)
-- ``` --Flip_input ```**->Indicate if you want to flip the input data around the 0 axis (Action argument, ```Default=False```)
-- ``` --IoU ```-> The maximum IoU used during inference given to the YOLOv5 model (```Default=0.75```)
-- ``` --Minimal_TH ```-> The minimal threshold for the bounding box predictions. Predictions below this threshold are removed (```Default=0.75```)
-- ``` --Use_existing_folder ```**->Indicate if you want to run the code in an existing folder, or if you want to create a new folder. (Action argument, ```Default=False```)
-- ``` --Dont_save_prediction_images ```**->Indicate if you want to remove the prediction PNG images to reduce the memory usage (Action argument, ```Default=False```)
-- ``` --No_inference ```**-> Indicate if you do not want to run inference (Action argument, ```Default=False```)
-- ``` --Mute ```**-> Indicate if you want to mute the printing of statements during inference (Action argument, ```Default=False```)
-- ``` --Remove_2D_bone_overview ```**-> Indicate if you do not want to create the "Affected_Bones.PNG" image  (Action argument, ```Default=False```)
+- ``` --Scan_name ``` :  The name of the scan and the annotation file on which the code will be applied ``` (no Default)``` 
+- ``` --Experiment_name ``` :  The name of the folder in which all the results will be stored (```Default= Experiment```)
+- ``` --Device ``` :  CUDA device, i.e., '0' or '0,1,2,3' or 'cpu' (```Default= cpu```)
+- ``` --Slices ``` :  Number of slices per plane on which you want to run the models (```Default= 3```)
+- ``` --Rotate_input ``` :  Indicate the number of times the input should be rotated 90 degrees (```Default= 0```)
+- ``` --Flip_input ```** : Indicate if you want to flip the input data around the 0 axis (Action argument, ```Default=False```)
+- ``` --IoU ``` :  The maximum IoU used during inference given to the YOLOv5 model (```Default=0.75```)
+- ``` --Minimal_TH ``` :  The minimal threshold for the bounding box predictions. Predictions below this threshold are removed (```Default=0.75```)
+- ``` --Use_existing_folder ```** : Indicate if you want to run the code in an existing folder, or if you want to create a new folder. (Action argument, ```Default=False```)
+- ``` --Dont_save_prediction_images ```** : Indicate if you want to remove the prediction PNG images to reduce the memory usage (Action argument, ```Default=False```)
+- ``` --No_inference ```** :  Indicate if you do not want to run inference (Action argument, ```Default=False```)
+- ``` --Mute ```** :  Indicate if you want to mute the printing of statements during inference (Action argument, ```Default=False```)
+- ``` --Remove_2D_bone_overview ```** :  Indicate if you do not want to create the "Affected_Bones.PNG" image  (Action argument, ```Default=False```)
 
 ** = To put these arguments in effect, simply add them as arguments to the input data
