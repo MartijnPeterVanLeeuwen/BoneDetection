@@ -80,5 +80,6 @@ This will start executing the code for scan *"test_1.nii"* and create a folder *
 - ``` --No_inference ```** :  Indicate if you do not want to run inference (Action argument, ```Default=False```)
 - ``` --Mute ```** :  Indicate if you want to mute the printing of statements during inference (Action argument, ```Default=False```)
 - ``` --Remove_2D_bone_overview ```** :  Indicate if you do not want to create the "Affected_Bones.PNG" image  (Action argument, ```Default=False```)
+- ``` --Switch_left_right````** : Indicate if you want to switch left and right.
 
 ** = To put these arguments in effect, simply add them as arguments to the input data
