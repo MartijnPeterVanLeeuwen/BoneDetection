@@ -32,6 +32,7 @@ parser.add_argument("--Dont_save_prediction_images", help="Indicate if the png p
 parser.add_argument("--No_inference", help="Indicate if want to run the inference, or if you want to change the post-processing of the model output",action='store_true')
 parser.add_argument("--Mute", help="Indicate if want to mute printing of statements during execution of the script",action='store_true')
 parser.add_argument("--Remove_2D_bone_overview", help="Indicate if you dont want to include a 2D bone overview ",action='store_true')
+parser.add_argument("--Finalize_inference", help="Indicate if you want to remove all the files that can be used to change the prediction labels ",action='store_true')
 
 # Parse arguments
 args = parser.parse_args()
@@ -104,7 +105,7 @@ if __name__ == "__main__":
 
     Create_summary_results(Summary_dict,patient_folder)
 
-    Cleanup_folder(patient_folder)
+    Cleanup_folder(patient_folder,Remove_segmentation_folders=args.Finalize_inference)
 
     if args.Mute==False:
        print("======================== Succesfully Concluded Inference Script  ======================== ")

@@ -9,6 +9,11 @@ Functions=Data_processing()
 
 def Create_Abnormality_overview(Scan_name,Path_to_desired_labels,Path_to_Segmentations,Path_to_storage,rotation=False,flip=False):
 
+    Path_to_storage=os.path.join(Path_to_storage,'Annotation_info')
+
+    if os.path.isdir(Path_to_storage)==False:
+        os.mkdir(Path_to_storage)
+
     file=os.path.join(Path_to_storage,"Lesion_centroids.json")
 
     if os.path.isfile(file)==False:

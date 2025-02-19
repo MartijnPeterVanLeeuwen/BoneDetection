@@ -24,4 +24,3 @@ def Create_lesion_folders(Path_to_main_folder):
             os.mkdir(Path_to_lesion_folder)
 
     return None
-#Create_lesion_folders("/home/mleeuwen/Plot_folder/test10")

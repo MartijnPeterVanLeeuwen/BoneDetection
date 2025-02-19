@@ -30,7 +30,7 @@ def Predict_multi_model_function(Path_to_CT,Path_to_Lesion_label,Name_scan,Path_
 
     Path_to_yaml=os.path.join(Path_to_yolo_folder,"data/Axial_FINAL.yaml")
 
-    Path_to_lesion_centroids=os.path.join(Path_to_main_folder,"Transformed_Lesion_centroids.xlsx")
+    Path_to_lesion_centroids=os.path.join(Path_to_main_folder,'Annotation_info',"Transformed_Lesion_centroids.xlsx")
 
     if os.path.isdir(Path_to_storage)==False:
         os.mkdir(Path_to_storage)
@@ -50,10 +50,11 @@ def Predict_multi_model_function(Path_to_CT,Path_to_Lesion_label,Name_scan,Path_
         MODEL_NR=MODELS[model_nr]
 
         Crossection_folder=os.path.join(Patient_result_folder,Model_Names[model_nr])
-        Path_to_label_folder = os.path.join(Path_to_main_folder, "Labels_%s"%Model_Names[model_nr])
+        Path_to_label_folder=os.path.join(Path_to_main_folder,'Segmentation_masks')
+        Path_to_label_folder = os.path.join(Path_to_label_folder, "Labels_%s"%Model_Names[model_nr])
 
         if os.path.isdir(Path_to_label_folder) == False:
-            os.mkdir(Path_to_label_folder)
+           os.makedirs(Path_to_label_folder)
 
         Image, Header = Functions.Loading_Nifti_data(Path_to_CT, Name_scan, Mute=True, Resize=False)
         Label,Header= Functions.Loading_Nifti_data(Path_to_Lesion_label, Name_scan,Mute=True,Resize=False)

@@ -76,6 +76,7 @@ def Obtain_x_y_z_lesion(Path_to_Label, Path_to_lesion_label_overview, File_name,
 
     Dataframe=pd.DataFrame(Dataframe)
 
-    Dataframe.to_excel(os.path.join(Patient_folder,"Transformed_Lesion_centroids.xlsx"))
+    Storage_folder=os.path.join(Patient_folder,'Annotation_info')
+    Dataframe.to_excel(os.path.join(Storage_folder,"Transformed_Lesion_centroids.xlsx"))
 
     return None

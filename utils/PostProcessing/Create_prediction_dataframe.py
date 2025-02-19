@@ -68,7 +68,7 @@ def Create_prediction_dataframe(Path_to_desired_labels,Patient_folder,RibFrac=Fa
 
     Yolo_prediction_folder=os.path.join(Patient_folder,"Prediction_yolo")
 
-    Lesions=os.listdir(os.path.join(Yolo_prediction_folder,'Axial/labels'))
+    Lesions=os.listdir(os.path.join(Yolo_prediction_folder,'Axial','labels'))
 
     Lesions=np.unique(["_".join(i.split("_")[:2]) for i in Lesions if "txt" in i])
 
@@ -79,7 +79,7 @@ def Create_prediction_dataframe(Path_to_desired_labels,Patient_folder,RibFrac=Fa
         for ii in range(len(Models)):
 
             Path_to_prediction_folder=os.path.join(Yolo_prediction_folder,"%s"%(Models[ii]))
-            Path_to_GT=os.path.join(Patient_folder,"Labels_%s"%Models[ii])
+            Path_to_GT=os.path.join(Patient_folder,'Segmentation_masks',"Labels_%s"%Models[ii])
 
             if ii==0:
                 Dictionary=None
@@ -92,6 +92,6 @@ def Create_prediction_dataframe(Path_to_desired_labels,Patient_folder,RibFrac=Fa
 
             Dataframe=pd.DataFrame(Dictionary)
 
-            Dataframe.to_excel(os.path.join(Patient_folder,"Lesions/Lesion_%s/Dataframe_%s.xlsx"%(lesion,Models[ii])))
+            Dataframe.to_excel(os.path.join(Patient_folder,"Lesions","Lesion_%s"%lesion,"Dataframe_%s.xlsx"%Models[ii]))
 
     return None
