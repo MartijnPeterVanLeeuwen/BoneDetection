@@ -106,7 +106,8 @@ if __name__ == "__main__":
     if args.Remove_2D_bone_overview==False:
         Create_2D_bone_overview(Affected_bones,Neighbouring_bones,current_wd,path_to_bone_types,patient_folder,Path_to_transformation_dict=Path_to_label_translation_dict)
 
-    Create_summary_results(Summary_dict,patient_folder)
+    Path_to_transformed_lesion_label_overview=os.path.join(patient_folder,'Annotation_info',"Transformed_Lesion_centroids.xlsx")
+    Create_summary_results(Summary_dict,patient_folder,Path_to_transformed_lesion_label_overview)
 
     Cleanup_folder(patient_folder,Remove_segmentation_folders=args.Finalize_inference)
 
