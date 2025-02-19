@@ -127,9 +127,7 @@ The code creates a folder containing several results. This section will discuss 
 └── YOLOV5_Output.txt
 
 ```
-![Affected_Bones](https://github.com/user-attachments/assets/31375297-80fc-4bfa-96e9-1036ead2b5f4)
-
-- ```Affected_Bones.PNG ``` : This is a visualization of the bones in which the bone abnormalities are located. 
+- ```Affected_Bones.PNG ``` : This is a visualization of the bones in which the bone abnormalities are located. An example of such an image is shown on the top page of this page. 
 - ```Predicted_labels.json ``` : This file contains a summary of the findings, it links the annotated bone abnormalities in the test_1.nii file to a bone.
 -  ```YOLOV5_Output.txt ``` : This file stores the output created by YOLOv5
 
