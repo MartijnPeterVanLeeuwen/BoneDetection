@@ -111,4 +111,7 @@ python Predict.py --Scan_name test_1.nii --Experiment_name Experiment --Use_exis
 
 ```
 In this example, the results from the folder ```Experiment``` are used, only now an ```--IoU``` of ```0.5``` and ```--Minimal_TH```of ```0.5``` is used. Make sure that you use the correct ```--Experiment_name``` file. 
+
 </details>
+
+## What is outputted
