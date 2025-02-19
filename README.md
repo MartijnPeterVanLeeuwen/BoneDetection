@@ -33,10 +33,10 @@ An example of how such a directory structure looks like is shown below. Note tha
 
 ```sh
 ../Path_to_input_CT/
-├── test_1.nii
+└── test_1.nii
 
 ../Path_to_abnormalities/
-├── test_1.nii
+└── test_1.nii
 
 ../Path_to_storage/
 ├── Experiment 
@@ -123,7 +123,7 @@ The code creates a folder containing several results. This section will discuss 
 ├── Prediction_yolo
 ├── Affected_Bones.PNG
 ├── Predicted_labels.json
-├── YOLOV5_Output.txt
+└── YOLOV5_Output.txt
 
 ```
 - ```Affected_Bones.PNG ``` : This is a visualization of the bones in which the bone abnormalities are located. 
@@ -138,9 +138,11 @@ The content of the other folders can be found below.
 ### Annotation_info
 ```
 ../Annotation_info
-├── Segmentation_masks
-├── Lesion_centroids.json
-├── Transformed_Lesion_centroids
+├── Segmentation_masks──────────── ├──Labels_Axial─────── ├── 1_1_-1_test_1_x_y_z.png
+├── Lesion_centroids.json          ├──Labels_Coronal      ├── 1_1_0_test_1_x_y_z.png
+└── Transformed_Lesion_centroids   └──Labels_Sagital      ├── 1_1_1_test_1_x_y_z.png
+                                                          ├── 2_1_-1_test_1_x_y_z.png
+                                                          ├── ...
 ```
 
 </details>
@@ -154,7 +156,7 @@ The content of the other folders can be found below.
 ../Lesions
 ├── Lesion_1_1 ────── ├── Dataframe_Axial.xlsx
 ├── Lesion_2_1        ├── Dataframe_Coronal.xlsx
-├── ...               ├── Dataframe_Sagital.xlsx
+├── ...               └── Dataframe_Sagital.xlsx
 
 ```
 
@@ -170,10 +172,11 @@ The content of the other folders can be found below.
 ../Prediction_yolo
 ├── Axial ────── ├── labels────────────────────────├── 1_1_-1_test_1_x_y_z.txt
 ├── Coronal      ├── 1_1_-1_test_1_x_y_z.png       ├── 1_1_0_test_1_x_y_z.txt
-├── Sagital      ├── 1_1_0_test_1_x_y_z.png        ├── 1_1_1_test_1_x_y_z.txt
-                 ├── 1_1_1_test_1_x_y_z.png  
-
-```
+└── Sagital      ├── 1_1_0_test_1_x_y_z.png        ├── 1_1_1_test_1_x_y_z.txt
+                 ├── 1_1_1_test_1_x_y_z.png        ├── 2_1_-1_test_1_x_y_z.txt  
+                 ├── 2_1_-1_test_1_x_y_z.png       ├── ...  
+                 ├── ...
+```  
 
 </details>
 
