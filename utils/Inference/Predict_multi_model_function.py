@@ -50,7 +50,7 @@ def Predict_multi_model_function(Path_to_CT,Path_to_Lesion_label,Name_scan,Path_
         MODEL_NR=MODELS[model_nr]
 
         Crossection_folder=os.path.join(Patient_result_folder,Model_Names[model_nr])
-        Path_to_label_folder=os.path.join(Path_to_main_folder,'Segmentation_masks')
+        Path_to_label_folder=os.path.join(Path_to_main_folder,'Annotation_info','Segmentation_masks')
         Path_to_label_folder = os.path.join(Path_to_label_folder, "Labels_%s"%Model_Names[model_nr])
 
         if os.path.isdir(Path_to_label_folder) == False:
@@ -198,6 +198,6 @@ def Predict_multi_model_function(Path_to_CT,Path_to_Lesion_label,Name_scan,Path_
     Move_prediction_files(Path_to_prediction,["Predictions_%s_Axial"%Name_scan.split(".")[0],"Predictions_%s_Sagital"%Name_scan.split(".")[0],"Predictions_%s_Coronal"%Name_scan.split(".")[0]],Path_to_prediction_destination)
 
     shutil.rmtree(Path_to_storage)
-    #shutil.rmtree(Path_to_prediction)
+    shutil.rmtree(Path_to_prediction)
 
 

@@ -4,7 +4,7 @@ import shutil
 
 def Cleanup_folder(patient_folder,Remove_segmentation_folders=False):
 
-    patient_folder=os.path.join(patient_folder,'Segmentation_masks')
+    patient_folder=os.path.join(patient_folder,'Annotation_info','Segmentation_masks')
     All_folders=os.listdir(patient_folder)
 
     if Remove_segmentation_folders:

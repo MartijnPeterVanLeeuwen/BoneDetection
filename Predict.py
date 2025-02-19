@@ -13,26 +13,26 @@ from utils.Visualization.Create_2D_bone_overview import Create_2D_bone_overview
 from utils.PostProcessing.Obtain_single_label import Obtain_single_label
 from utils.PreProcessing.Check_storage_dir import Check_storage_dir
 from utils.PostProcessing.Create_summary_results import Create_summary_results
+
 current_wd= os.getcwd()
 
-# Create a parser object
 parser = argparse.ArgumentParser(description="Execute Inference")
 
-# Add arguments
 parser.add_argument("--Scan_name", type=str, help="Name of the scan in the CT and Label folder that should be processed")
 parser.add_argument("--Experiment_name", type=str, help="The name that should be assigned to the experiment",default="Experiment")
-parser.add_argument("--Use_existing_folder", help="Indicate if you want to create a new folder or if you want to work in an existing folder",action='store_true')
 parser.add_argument("--Device", help="The selected GPU on which will be used during inference, or type 'cpu'",default='cpu')
-parser.add_argument("--Flip_input", type=int, help="Flip the input axes",default=False)
+parser.add_argument("--Slices", type=int, help="The number of slices per plane on which you want to run inference",default=3)
 parser.add_argument("--Rotate_input", type=int, help="Rotate the the input 90 degrees, the variable should indicate the number of times the input data should be rotated",default=0)
+parser.add_argument("--Flip_input", type=int, help="Flip the input axes",default=False)
 parser.add_argument("--IoU", type=float, help="IoU argument passed into YOLOs inference method",default=0.75)
 parser.add_argument("--Minimal_TH", type=float, help="All predictions below this bounding box will be removed",default=0.75)
-parser.add_argument("--Slices", type=int, help="The number of slices per plane on which you want to run inference",default=3)
+parser.add_argument("--Use_existing_folder", help="Indicate if you want to create a new folder or if you want to work in an existing folder",action='store_true')
 parser.add_argument("--Dont_save_prediction_images", help="Indicate if the png predictions made by YOLOv5 should be stored",action='store_true')
 parser.add_argument("--No_inference", help="Indicate if want to run the inference, or if you want to change the post-processing of the model output",action='store_true')
 parser.add_argument("--Mute", help="Indicate if want to mute printing of statements during execution of the script",action='store_true')
 parser.add_argument("--Remove_2D_bone_overview", help="Indicate if you dont want to include a 2D bone overview ",action='store_true')
 parser.add_argument("--Finalize_inference", help="Indicate if you want to remove all the files that can be used to change the prediction labels ",action='store_true')
+parser.add_argument("--Switch_left_right", help="Depending on the orientation, left and right can be switched ",action='store_true')
 
 # Parse arguments
 args = parser.parse_args()
@@ -95,7 +95,10 @@ if __name__ == "__main__":
            print("======================== Ended Inference in %s minutes  ======================== "%duration)
 
 
-    Path_to_label_translation_dict=os.path.join(current_wd,'utils','Bone_labels_pov_patient.json')
+    if args.Switch_left_right==False:
+        Path_to_label_translation_dict=os.path.join(current_wd,'utils','Bone_labels_pov_patient.json')
+    else:
+        Path_to_label_translation_dict=os.path.join(current_wd,'utils','Bone_labels_pov_outside.json')
 
     Path_to_neighbouring_files=os.path.join(current_wd,'utils','Neighbour_file.json')
     Affected_bones,Neighbouring_bones,Summary_dict=Obtain_single_label(path_to_bone_types, patient_folder,Path_to_neighbouring_files,TH=args.Minimal_TH)

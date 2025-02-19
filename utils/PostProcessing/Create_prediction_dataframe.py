@@ -79,7 +79,7 @@ def Create_prediction_dataframe(Path_to_desired_labels,Patient_folder,RibFrac=Fa
         for ii in range(len(Models)):
 
             Path_to_prediction_folder=os.path.join(Yolo_prediction_folder,"%s"%(Models[ii]))
-            Path_to_GT=os.path.join(Patient_folder,'Segmentation_masks',"Labels_%s"%Models[ii])
+            Path_to_GT=os.path.join(Patient_folder,'Annotation_info','Segmentation_masks',"Labels_%s"%Models[ii])
 
             if ii==0:
                 Dictionary=None
