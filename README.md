@@ -136,6 +136,8 @@ The code creates a folder containing several results. This section will discuss 
 
 </details>
 
+</details>
+
 <summary>Lesions </summary>
 
 ### Lesions
@@ -143,6 +145,7 @@ The code creates a folder containing several results. This section will discuss 
 
 </details>
 
+</details>
 
 <summary>Prediction_yolo </summary>
 
