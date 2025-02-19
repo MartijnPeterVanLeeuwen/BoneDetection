@@ -62,7 +62,7 @@ pip install -r /Requirements.txt
 This will install all the required packages. Note that you do not have to separately download the YOLOv5 directory, we have included it in Github in this [folder](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/tree/main/utils/Model). This code was directly downloaded from the original [YOLOv5](https://github.com/ultralytics/yolov5) GitHub page.
 <details>
 
-<summary>Run Prediction </summary>
+<summary>Execution Code </summary>
 
 ### Run Prediction 
 When the git repository has been cloned, the paths file has been updated, and the input files have been stored correctly, the code can be executed. This can be done by running the following command in the command prompt:
@@ -89,6 +89,8 @@ This will start executing the code for scan *"test_1.nii"* and create a folder *
 ** = To put these arguments in effect, simply add them as arguments to the input data
 
 </details>
+</details>
 
 ### Change prediction parameters without running inference
 
+</details>
