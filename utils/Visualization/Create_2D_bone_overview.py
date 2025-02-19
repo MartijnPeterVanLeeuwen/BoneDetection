@@ -94,8 +94,9 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
     Swapped_label_copy=copy.copy(Swapped_lab)
 
-    fig,ax=plt.subplots(1,4,figsize=(10.5,4),dpi=300)
-
+    #fig,ax=plt.subplots(1,4,figsize=(15,5),dpi=400)
+    fig,ax=plt.subplots(1,4,figsize=(14.5,5),dpi=400)
+    plt.subplots_adjust(top=None, wspace=None, hspace=0.1)
     for iii in range(2):
         Flip=False
         for ii in range(2):
@@ -164,10 +165,11 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
             margin=50
 
-            start_point_left=-90
-            start_point_right=complete_bone_mask.shape[1]+10
+            start_point_left=-120
+            start_point_right=complete_bone_mask.shape[1]+20
             Unique_label_detections=np.unique(Affected_bones)
             Processed_labels=[]
+            fontsize=8
 
             for j in range(len(Affected_bones)):
                 No_counts=0
@@ -204,7 +206,7 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
                         current_sp=start_point_left-letters-margin
                         if make_label:
                             ax[index].hlines(k[1], xmin=start_point_left, xmax=start,linestyles='dotted')
-                            ax[index].text(start_point_left,k[1],bone_label,fontsize=5,color='black')
+                            ax[index].text(start_point_left,k[1],bone_label,fontsize=fontsize,color='black')
                             #ax[iii,ii].hlines(k[1], xmin=start_point_left, xmax=start,linestyles='dotted')
                             #ax[iii,ii].text(start_point_left,k[1],bone_label,fontsize=5,color='black')
 
@@ -212,12 +214,12 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
                         make_label=True
                         if iii==1:
-                            index=3
+                            index=2
                             start=k[0]
                             if 'right' in bone_label:
                                 make_label=False
                         else:
-                            index=2
+                            index=3
                             start=complete_bone_mask.shape[1]-k[0]
                             #start=k[0]
                             if 'left' in bone_label:
@@ -228,7 +230,7 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
                         if make_label:
                             ax[index].hlines(k[1], xmin=start, xmax=start_point_right,linestyles='dotted')
-                            ax[index].text(start_point_right,k[1],bone_label,fontsize=5,color='black')
+                            ax[index].text(start_point_right,k[1],bone_label,fontsize=fontsize,color='black')
                             #ax[iii,ii].hlines(k[1], xmin=start, xmax=start_point_right,linestyles='dotted')
                             #ax[iii,ii].text(start_point_right,k[1],bone_label,fontsize=5,color='black')
 
