@@ -126,10 +126,14 @@ The code creates a folder containing several results. This section will discuss 
 ├── YOLOV5_Output.txt
 
 ```
+- ```Affected_Bones.PNG ``` : This is a visualization of the bones in which the bone abnormalities are located. 
+- ```Predicted_labels.json ``` : This file contains a summary of the findings, it links the annotated boneabnormalities in the test_1.nii file to a bone.
+-  ```YOLOV5_Output.txt ``` : This file stores the output created by YOLOv5
 
+The content of the other folders can be found below.
 <details>
 
-```test ```<summary>Annotation_info </summary>
+<summary>Annotation_info </summary>
 
 ### Annotation_info
 
