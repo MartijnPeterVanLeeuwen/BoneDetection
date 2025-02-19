@@ -48,6 +48,10 @@ An example of a CT scan and manually created bone abnormality annotations are in
 
 Your data must have the same orientation as the data in the example data for the code to properly run. For instance, when running this data on the [RibFrac](https://ribfrac.grand-challenge.org/) you will need to rotate the input data 180 degrees before running the code as the orientation of these scans does not align with the orientation that we use in our code. 
 
+<details>
+
+<summary>Set-up </summary>
+
 
 ## How to get started? 
 To get started with this code, run the following code
@@ -60,6 +64,9 @@ pip install -r /Requirements.txt
 
 ```
 This will install all the required packages. Note that you do not have to separately download the YOLOv5 directory, we have included it in Github in this [folder](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/tree/main/utils/Model). This code was directly downloaded from the original [YOLOv5](https://github.com/ultralytics/yolov5) GitHub page.
+</details>
+
+
 <details>
 
 <summary>Execution Code </summary>
