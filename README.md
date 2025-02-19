@@ -154,23 +154,6 @@ The ground truth images are structured in a certain format:   ```1_1_-1_test_1_x
 
 <details>
 
-<summary>Lesions </summary>
-
-### Lesions
-```
-../Lesions
-├── Lesion_1_1 ────── ├── Dataframe_Axial.xlsx
-├── Lesion_2_1        ├── Dataframe_Coronal.xlsx
-├── ...               └── Dataframe_Sagital.xlsx
-
-```
-This folder contains a separate folder for each lesion in the annotation file. These folders contain ```.xlsx``` files with the selected label for each input image, including the outputted probability by YOLOv5. This is done for all 3 planes.
-
-
-</details>
-
-<details>
-
 <summary>Prediction_yolo </summary>
 
 ### Prediction_yolo
@@ -183,6 +166,24 @@ This folder contains a separate folder for each lesion in the annotation file. T
                  ├── 2_1_-1_test_1_x_y_z.png       ├── ...  
                  ├── ...
 ```  
+This folder contains the raw YOLOv5 output, including the prediction images and the label files. These outputs are included for each plane. If you do not want to have the PNG images stored, use the ``` --Dont_save_prediction_images ``` command when running the code.
 
 </details>
+
+<details>
+
+<summary>Lesions </summary>
+
+### Lesions
+```
+../Lesions
+├── Lesion_1_1 ────── ├── Dataframe_Axial.xlsx
+├── Lesion_2_1        ├── Dataframe_Coronal.xlsx
+├── ...               └── Dataframe_Sagital.xlsx
+
+```
+This folder contains a separate folder for each lesion in the annotation file. These folders contain ```.xlsx``` files with the selected bone label for each input image, including the outputted probability by YOLOv5. This is done for all 3 planes.
+
+</details>
+
 
