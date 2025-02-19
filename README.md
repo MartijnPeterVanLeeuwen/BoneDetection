@@ -1,7 +1,7 @@
 
 # Welcome to the Multiplanar (MP) YOLOv5 Based Bone Identification Method
 Welcome to the GitHub page for our multiplanar bone detection method. This GitHub page makes use of the [YOLOv5](https://github.com/ultralytics/yolov5) framework, which we used to train a bone detection and identification method to localize 64 different bones (and costal cartilage) in the axial, coronal and sagittal planes of Computed Tomography (CT) scans. These models were trained on scans and bone labels that originated from a selection of the [Total Segmentator](https://github.com/wasserth/TotalSegmentator) dataset CT scans. Below we will explain what this method can do, and how to get started. If you decide to make use of this method, please cite our paper [link]() 
-![Affected_Bones](https://github.com/user-attachments/assets/a9dbff07-0b71-4b25-961e-5cd31b1a8cd4)
+![Affected_Bones](https://github.com/user-attachments/assets/8f3b8441-a579-43e6-8b74-dc97a77fdcfc)
 
 
 ## What can this GitHub be used for? 
