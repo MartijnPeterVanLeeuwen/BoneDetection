@@ -50,7 +50,7 @@ Your data must have the same orientation as the data in the example data for the
 
 <details>
 
-<summary>Set-up </summary>
+<summary>Set-up code </summary>
 
 
 ## How to get started? 
