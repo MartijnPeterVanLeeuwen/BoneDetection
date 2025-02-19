@@ -72,7 +72,7 @@ This will start executing the code for scan *"test_1.nii"* and create a folder *
 - ``` --Device ``` :  CUDA device, i.e., '0' or '0,1,2,3' or 'cpu' (```Default= cpu```)
 - ``` --Slices ``` :  Number of slices per plane on which you want to run the models (```Default= 3```)
 - ``` --Rotate_input ``` :  Indicate the number of times the input should be rotated 90 degrees (```Default= 0```)
-- ``` --Flip_input ```** : Indicate if you want to flip the input data around the 0 axis (Action argument, ```Default=False```)
+- ``` --Flip_input ``` : Indicate the axis of the input data that you would like to flip (```Default=False```)
 - ``` --IoU ``` :  The maximum IoU used during inference given to the YOLOv5 model (```Default=0.75```)
 - ``` --Minimal_TH ``` :  The minimal threshold for the bounding box predictions. Predictions below this threshold are removed (```Default=0.75```)
 - ``` --Use_existing_folder ```** : Indicate if you want to run the code in an existing folder, or if you want to create a new folder. (Action argument, ```Default=False```)
