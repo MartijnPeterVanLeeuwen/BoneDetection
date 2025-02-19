@@ -92,7 +92,7 @@ This will start executing the code for scan *"test_1.nii"* and create a folder *
 - ``` --No_inference ```** :  Indicate if you do not want to run inference (Action argument, ```Default=False```)
 - ``` --Mute ```** :  Indicate if you want to mute the printing of statements during inference (Action argument, ```Default=False```)
 - ``` --Remove_2D_bone_overview ```** :  Indicate if you do not want to create the "Affected_Bones.PNG" image  (Action argument, ```Default=False```)
-- ```--Finalize_inference"```**: If you do not want to tweak any parameters, this parameters will remove all files that are not needed anymore
+- ```--Finalize_inference"```**: If you do not want to tweak any parameters, these parameters will remove all files that are not needed anymore
 - ``` --Switch_left_right```** : Indicate if you want to switch the orientation of left and right.
 
 ** = To put these arguments in effect, simply add them as arguments to the input data
@@ -127,13 +127,13 @@ The code creates a folder containing several results. This section will discuss 
 
 ```
 - ```Affected_Bones.PNG ``` : This is a visualization of the bones in which the bone abnormalities are located. 
-- ```Predicted_labels.json ``` : This file contains a summary of the findings, it links the annotated boneabnormalities in the test_1.nii file to a bone.
+- ```Predicted_labels.json ``` : This file contains a summary of the findings, it links the annotated bone abnormalities in the test_1.nii file to a bone.
 -  ```YOLOV5_Output.txt ``` : This file stores the output created by YOLOv5
 
 The content of the other folders can be found below.
 <details>
 
-<summary>```Annotation_info``` </summary>
+<summary>Annotation_info </summary>
 
 ### Annotation_info
 
