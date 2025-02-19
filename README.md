@@ -65,8 +65,20 @@ When the git repository has been cloned, the paths file has been updated, and th
 ```
 python Predict.py --Scan_name test_1.nii --Slices 5 --Device CPU --Experiment_name Experiment
 ```
-This will start executing the code for scan *"test_1.nii"* and create a folder *"Experiment"* in the *"Path_to_storage"* directory in which all the results will be stored. A description of the other arguments that can be used by this function are described below: 
+This will start executing the code for scan *"test_1.nii"* and create a folder *"Experiment"* in the *"Path_to_storage"* directory in which all the results will be stored. A description of the other arguments that this function can use are described below: 
+
+``` --Scan_name ```-> The name of the scan and the annotation file on which the code will be applied ``` (no Default)``` 
+``` --Experiment_name ```-> The name of the folder in which all the results will be stored (```Default= Experiment```)
+``` --Use_existing_folder ```->
+``` --Device ```->
+``` --Flip_input ```->
+``` --Flip_input ```->
+``` --IoU ```->
+``` --Minimal_TH ```->
+``` --Slices ```->
+``` --Dont_save_prediction_images ```->
+``` --No_inference ```->
+``` --Mute ```->
+``` --Remove_2D_bone_overview ```->
 
 
-
-``` test ```
