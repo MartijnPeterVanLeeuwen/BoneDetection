@@ -138,11 +138,11 @@ The content of the other folders can be found below.
 ### Annotation_info
 ```
 ../Annotation_info
-├── Segmentation_masks─────────────────├──Labels_Axial─────── ├── 1_1_-1_test_1_x_y_z.png
-├── Lesion_centroids.json              ├──Labels_Coronal      ├── 1_1_0_test_1_x_y_z.png
-└── Transformed_Lesion_centroids.xlsx     └──Labels_Sagital   ├── 1_1_1_test_1_x_y_z.png
-                                                              ├── 2_1_-1_test_1_x_y_z.png
-                                                              ├── ...
+├── Segmentation_masks─────────────────────├──Labels_Axial─────── ├── 1_1_-1_test_1_x_y_z.png
+├── Lesion_centroids.json                  ├──Labels_Coronal      ├── 1_1_0_test_1_x_y_z.png
+└── Transformed_Lesion_centroids.xlsx      └──Labels_Sagital      ├── 1_1_1_test_1_x_y_z.png
+                                                                  ├── 2_1_-1_test_1_x_y_z.png
+                                                                  ├── ...
 ```
 - ```Lesion_centroids.json ``` : Centroid of each lesion in the annotation file.
 - ```Transformed_Lesion_centroids.xlsx ``` :  Centroids of the lesions after applying scaling, rotation, and flipping (if necessary).  
@@ -164,8 +164,7 @@ The ground truth images are structured in a certain format:   ```1_1_-1_test_1_x
 ├── ...               └── Dataframe_Sagital.xlsx
 
 ```
-
-
+This folder contains a separate folder for each lesion in the annotation file. These folders contain ```.xlsx``` files with the selected label for each input image, including the outputted probability by YOLOv5. This is done for all 3 planes.
 
 
 </details>
