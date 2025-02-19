@@ -91,6 +91,8 @@ This will start executing the code for scan *"test_1.nii"* and create a folder *
 </details>
 </details>
 
+<summary>Post-processing </summary>
+
 ### Change prediction parameters without running inference
 
 </details>
