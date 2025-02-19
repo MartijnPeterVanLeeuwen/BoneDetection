@@ -148,7 +148,7 @@ The content of the other folders can be found below.
 - ```Transformed_Lesion_centroids.xlsx ``` :  Centroids of the lesions after applying scaling, rotation, and flipping (if necessary).  
 - ```Segmentation_masks ``` : This folder contains images of the annotation masks of the bone abnormalities. These are used to determine what bounding box overlaps with the annotated bone abnormality.
 
-The ground truth images are structured in a certain format:   ```1_1_-1_test_1_x_y_z.png``` The first number describes the lesion number, and the second shows the integer value that belongs to the annotation mask. The ```-1``` refers to the relative position of the slice to the centroid of the bone lesion. The  ```x```,  ```y```, and  ```values indicate the scaled coordinates of the annotation in the input scan.
+The ground truth images are structured in a certain format:   ```1_1_-1_test_1_x_y_z.png``` The first number describes the lesion number, and the second shows the integer value that belongs to the annotation mask. The ```-1``` refers to the relative position of the slice to the centroid of the bone lesion. The  ```x```,  ```y```, and ```z``` values indicate the scaled coordinates of the annotation in the input scan.
 
 </details>
 
@@ -164,6 +164,10 @@ The ground truth images are structured in a certain format:   ```1_1_-1_test_1_x
 ├── ...               └── Dataframe_Sagital.xlsx
 
 ```
+
+
+
+
 </details>
 
 <details>
