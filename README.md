@@ -50,7 +50,7 @@ Your data must have the same orientation as the data in the example data for the
 
 ## How to run the code on your data
 Below you can find instructions on how to install and run the code from this GitHub on your device.
-<details>
+<details open>
 
 <summary>Clone repository and install required packages </summary>
 
@@ -68,7 +68,7 @@ This will install all the required packages. Note that you do not have to separa
 </details>
 
 
-<details>
+<details open>
 
 <summary> Run Prediction </summary>
 
