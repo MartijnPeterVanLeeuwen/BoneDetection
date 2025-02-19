@@ -69,22 +69,13 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
         Selected_coordinates=[coordinates[0][max_depth],coordinates[1][max_depth],coordinates[-1][max_depth]]
         Selected_coordinates.append(Affected_bones[i])
-
-
-        #average_coordinate=np.array(list(np.round(np.mean(coordinates,axis=1)).astype(int)))
-        #All_distances=[np.sqrt((coordinates[0][i]-average_coordinate[0])**2+(coordinates[1][i]-average_coordinate[1])**2+(coordinates[-1][i]-average_coordinate[-1])**2) for i in range(coordinates[0].shape[0])]
-        #minimum_distance=np.argmin(All_distances)
-        #coordinate_intensity=Swapped_lab[coordinates[0][minimum_distance],coordinates[1][minimum_distance],coordinates[-1][minimum_distance]]
-        #Selected_coordinates=[coordinates[0][minimum_distance],coordinates[1][minimum_distance],coordinates[-1][minimum_distance]]
-        #Selected_coordinates.append(Affected_bones[i])
-
         centroid_affected_bones.append(Selected_coordinates)
         empty_vol[coordinates[0,:],coordinates[1,:],coordinates[2,:]]+=0.33
 
     sorted_centroids = sorted(centroid_affected_bones, key=lambda x: x[1])
 
     init=0
-    min_distance=0
+    min_distance=10
 
     for i in range(len(sorted_centroids)):
         slice_distance=sorted_centroids[i][1]-init
@@ -103,7 +94,7 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
     Swapped_label_copy=copy.copy(Swapped_lab)
 
-    fig,ax=plt.subplots(2,2,figsize=(6,9),dpi=300)
+    fig,ax=plt.subplots(1,4,figsize=(10.5,4),dpi=300)
 
     for iii in range(2):
         Flip=False
@@ -120,11 +111,11 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
             if ii ==1:
 
                 if iii==1:
-                    min_scalar=0.75
+                    min_scalar=0.85
                     max_scalar=-0.5
                 else:
                     min_scalar=-0.5
-                    max_scalar=0.75
+                    max_scalar=0.85
 
                 Degrading_map=np.ones(np.rot90(bone_masks,1,axes=(0,2)).shape)
                 degrading_scalar=np.linspace(min_scalar,max_scalar,np.rot90(bone_masks,1,axes=(0,2)).shape[0])
@@ -138,7 +129,7 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
             else:
                 if iii==0:
-                    min_scalar=0
+                    min_scalar=0.25
                     max_scalar=0.9
                 else:
                     min_scalar=0.75
@@ -173,7 +164,7 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
             margin=50
 
-            start_point_left=-100
+            start_point_left=-90
             start_point_right=complete_bone_mask.shape[1]+10
             Unique_label_detections=np.unique(Affected_bones)
             Processed_labels=[]
@@ -198,10 +189,12 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
                     if ii==0:
                         make_label=True
                         if iii==0:
+                            index=0
                             start=k[2]
                             if 'left' in bone_label:
                                 make_label=False
                         else:
+                            index=1
                             start=complete_bone_mask.shape[1]-k[2]
                             #start=k[2]
                             if 'right' in bone_label:
@@ -210,17 +203,21 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
                         letters=len(bone_label)
                         current_sp=start_point_left-letters-margin
                         if make_label:
-                            ax[iii,ii].hlines(k[1], xmin=start_point_left, xmax=start,linestyles='dotted')
-                            ax[iii,ii].text(start_point_left,k[1],bone_label,fontsize=5,color='black')
+                            ax[index].hlines(k[1], xmin=start_point_left, xmax=start,linestyles='dotted')
+                            ax[index].text(start_point_left,k[1],bone_label,fontsize=5,color='black')
+                            #ax[iii,ii].hlines(k[1], xmin=start_point_left, xmax=start,linestyles='dotted')
+                            #ax[iii,ii].text(start_point_left,k[1],bone_label,fontsize=5,color='black')
 
                     else:
 
                         make_label=True
                         if iii==1:
+                            index=3
                             start=k[0]
                             if 'right' in bone_label:
                                 make_label=False
                         else:
+                            index=2
                             start=complete_bone_mask.shape[1]-k[0]
                             #start=k[0]
                             if 'left' in bone_label:
@@ -230,8 +227,10 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
                         current_sp=start_point_left-letters-margin
 
                         if make_label:
-                            ax[iii,ii].hlines(k[1], xmin=start, xmax=start_point_right,linestyles='dotted')
-                            ax[iii,ii].text(start_point_right,k[1],bone_label,fontsize=5,color='black')
+                            ax[index].hlines(k[1], xmin=start, xmax=start_point_right,linestyles='dotted')
+                            ax[index].text(start_point_right,k[1],bone_label,fontsize=5,color='black')
+                            #ax[iii,ii].hlines(k[1], xmin=start, xmax=start_point_right,linestyles='dotted')
+                            #ax[iii,ii].text(start_point_right,k[1],bone_label,fontsize=5,color='black')
 
                 Complete_overview[:,:,0]=complete_bone_mask
                 Complete_overview[:,:,1]=complete_bone_mask-selection_bone_mask-0.4*selection_neighbouring_mask
@@ -241,10 +240,11 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
                 if Flip:
                     Complete_overview=np.flip(Complete_overview,axis=1)
 
-                ax[iii,ii].imshow(Complete_overview)
-                ax[iii,ii].axis('off')
-                #ax[iii,ii].plot(k[0],k[1],'x',color='red')
-                #ax[iii,ii].plot(k[2],k[1],'o',color='blue')
+                ax[index].imshow(Complete_overview)
+                ax[index].axis('off')
+
+                #ax[iii,ii].imshow(Complete_overview)
+                #ax[iii,ii].axis('off')
 
 
     storage_file=os.path.join(storage_dir,'Affected_Bones.png')
