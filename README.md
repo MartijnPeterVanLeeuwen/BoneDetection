@@ -49,12 +49,10 @@ An example of a CT scan and manually created bone abnormality annotations are in
 Your data must have the same orientation as the data in the example data for the code to properly run. For instance, when running this data on the [RibFrac](https://ribfrac.grand-challenge.org/) you will need to rotate the input data 180 degrees before running the code as the orientation of these scans does not align with the orientation that we use in our code. 
 
 ## How to run the code on your data
-Below you can find that commands you need to install and run the code from this GitHub on your device.
+Below you can find instructions on how to install and run the code from this GitHub on your device.
 <details>
 
-<summary>Set-up code </summary>
-
-
+<summary>Clone repository and install required packages </summary>
 ## How to get started? 
 To get started with this code, run the following code
 ```sh
