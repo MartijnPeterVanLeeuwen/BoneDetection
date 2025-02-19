@@ -115,7 +115,7 @@ In this example, the results from the folder ```Experiment``` are used, only now
 </details>
 
 ## What is outputted
-
+The code creates a folder containing several results. This section will discuss what these outputs mean so that you can extract the information you need from the results.
 ```
 ../Path_to_storage/Experiment
 ├── Annotation_info
