@@ -126,3 +126,28 @@ The code creates a folder containing several results. This section will discuss 
 ├── YOLOV5_Output.txt
 
 ```
+
+<details>
+
+<summary>Annotation_info </summary>
+
+### Annotation_info
+
+
+</details>
+
+<summary>Lesions </summary>
+
+### Lesions
+
+
+</details>
+
+
+<summary>Prediction_yolo </summary>
+
+### Prediction_yolo
+
+
+</details>
+
