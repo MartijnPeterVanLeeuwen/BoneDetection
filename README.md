@@ -70,7 +70,7 @@ This will install all the required packages. Note that you do not have to separa
 
 <details>
 
-<summary>Execution Code </summary>
+<summary> Run Prediction </summary>
 
 ### Run Prediction 
 When the git repository has been cloned, the paths file has been updated, and the input files have been stored correctly, the code can be executed. This can be done by running the following command in the command prompt:
@@ -100,7 +100,7 @@ This will start executing the code for scan *"test_1.nii"* and create a folder *
 
 <details>
 
-<summary>Post-Processing Code </summary>
+<summary>Change post-processing parameters </summary>
 
 ### Change prediction parameters without running inference
 asd
