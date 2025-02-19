@@ -136,7 +136,12 @@ The content of the other folders can be found below.
 <summary>Annotation_info </summary>
 
 ### Annotation_info
-
+```
+../Annotation_info
+├── Segmentation_masks
+├── Lesion_centroids.json
+├── Transformed_Lesion_centroids
+```
 
 </details>
 
@@ -145,6 +150,13 @@ The content of the other folders can be found below.
 <summary>Lesions </summary>
 
 ### Lesions
+```
+../Lesions
+├── Lesion_1_1 ────── ├── Dataframe_Axial.xlsx
+├── Lesion_2_1        ├── Dataframe_Coronal.xlsx
+├── ...               ├── Dataframe_Sagital.xlsx
+
+```
 
 
 </details>
@@ -154,7 +166,14 @@ The content of the other folders can be found below.
 <summary>Prediction_yolo </summary>
 
 ### Prediction_yolo
+```
+../Prediction_yolo
+├── Axial ────── ├── labels────────────────────────├── 1_1_-1_test_1_x_y_z.txt
+├── Coronal      ├── 1_1_-1_test_1_x_y_z.png       ├── 1_1_0_test_1_x_y_z.txt
+├── Sagital      ├── 1_1_0_test_1_x_y_z.png        ├── 1_1_1_test_1_x_y_z.txt
+                 ├── 1_1_1_test_1_x_y_z.png  
 
+```
 
 </details>
 
