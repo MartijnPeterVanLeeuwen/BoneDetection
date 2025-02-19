@@ -53,6 +53,7 @@ Below you can find instructions on how to install and run the code from this Git
 <details>
 
 <summary>Clone repository and install required packages </summary>
+
 ## How to get started? 
 To get started with this code, run the following code
 ```sh
