@@ -138,12 +138,12 @@ The content of the other folders can be found below.
 ### Annotation_info
 ```
 ../Annotation_info
-├── Segmentation_masks──────────── ├──Labels_Axial─────── ├── 1_1_-1_test_1_x_y_z.png
-├── Lesion_centroids.json          ├──Labels_Coronal      ├── 1_1_0_test_1_x_y_z.png
-└── Transformed_Lesion_centroids   └──Labels_Sagital      ├── 1_1_1_test_1_x_y_z.png
-                                                          ├── 2_1_-1_test_1_x_y_z.png
-                                                          ├── ...
-```
+├── Segmentation_masks─────────────────├──Labels_Axial─────── ├── 1_1_-1_test_1_x_y_z.png
+├── Lesion_centroids.json              ├──Labels_Coronal      ├── 1_1_0_test_1_x_y_z.png
+└── Transformed_Lesion_centroids.xlsx     └──Labels_Sagital   ├── 1_1_1_test_1_x_y_z.png
+                                                              ├── 2_1_-1_test_1_x_y_z.png
+                                                              ├── ...
+```  
 
 </details>
 
