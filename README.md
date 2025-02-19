@@ -115,3 +115,14 @@ In this example, the results from the folder ```Experiment``` are used, only now
 </details>
 
 ## What is outputted
+
+```
+../Path_to_storage/Experiment
+├── Annotation_info
+├── Lesions
+├── Prediction_yolo
+├── Affected_Bones.PNG
+├── Predicted_labels.json
+├── YOLOV5_Output.txt
+
+```
