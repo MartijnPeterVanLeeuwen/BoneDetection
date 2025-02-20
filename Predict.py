@@ -110,7 +110,7 @@ if __name__ == "__main__":
                                                             Path_to_transformation_dict=Path_to_label_translation_dict,TH=args.Minimal_TH)
 
     if args.Remove_2D_bone_overview==False:
-        Create_2D_bone_overview(Affected_bones,Neighbouring_bones,current_wd,path_to_bone_types,patient_folder,Path_to_transformation_dict=Path_to_label_translation_dict,Mute_tex=args.Mute_text_in_plot)
+        Create_2D_bone_overview(Affected_bones,Neighbouring_bones,current_wd,path_to_bone_types,patient_folder,Path_to_transformation_dict=Path_to_label_translation_dict,Mute_text=args.Mute_text_in_plot)
 
     path_to_bone_switch_label=os.path.join(current_wd,'utils','Bone_label_switch.json')
 

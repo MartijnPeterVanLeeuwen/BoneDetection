@@ -73,7 +73,7 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
     sorted_centroids = sorted(centroid_affected_bones, key=lambda x: x[1])
 
     init=0
-    min_distance=7
+    min_distance=9
 
     for i in range(len(sorted_centroids)):
         slice_distance=sorted_centroids[i][1]-init
