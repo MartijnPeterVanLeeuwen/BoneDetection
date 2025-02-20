@@ -18,18 +18,19 @@ def Obtain_x_y_z_lesion(Path_to_Label, Path_to_lesion_label_overview, File_name,
 
     Lesion_overview=Label_dictionary_overview
 
-    Prediction,Header=Functions.Loading_Nifti_data(Path_to_Label,File_name,Mute=True)
+    Annotation,Header=Functions.Loading_Nifti_data(Path_to_Label,File_name,Mute=True)
 
     if flip!= False:
-        Prediction=[np.flip(Prediction[0],flip)]
+        Annotation=[np.flip(Annotation[0],flip)]
     if rotation!=False:
-        Prediction=[np.rot90(Prediction[0],rotation)]
+        Annotation=[np.rot90(Annotation[0],rotation)]
 
     Scale_x=Header[0]["pixdim"][1]/1.5
     Scale_y=Header[0]["pixdim"][2]/1.5
     Scale_z=Header[0]["pixdim"][3]/1.5
 
-    Regions=regionprops(label(Prediction[0]>0))
+    Regions=regionprops(label(Annotation[0]>0))
+
     Centroids_x=[]
     Centroids_y=[]
     Centroids_z=[]

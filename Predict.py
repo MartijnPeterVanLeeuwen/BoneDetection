@@ -13,7 +13,7 @@ from utils.Visualization.Create_2D_bone_overview import Create_2D_bone_overview
 from utils.PostProcessing.Obtain_single_label import Obtain_single_label
 from utils.PreProcessing.Check_storage_dir import Check_storage_dir
 from utils.PostProcessing.Create_summary_results import Create_summary_results
-
+from utils.Visualization.Create_nii_output import Create_nii_output
 current_wd= os.getcwd()
 
 parser = argparse.ArgumentParser(description="Execute Inference")
@@ -26,7 +26,6 @@ parser.add_argument("--Rotate_input", type=int, help="Rotate the the input 90 de
 parser.add_argument("--Flip_input", type=int, help="Flip the input axes",default=False)
 parser.add_argument("--IoU", type=float, help="IoU argument passed into YOLOs inference method",default=0.75)
 parser.add_argument("--Minimal_TH", type=float, help="All predictions below this bounding box will be removed",default=0.75)
-parser.add_argument("--Use_existing_folder", help="Indicate if you want to create a new folder or if you want to work in an existing folder",action='store_true')
 parser.add_argument("--Dont_save_prediction_images", help="Indicate if the png predictions made by YOLOv5 should be stored",action='store_true')
 parser.add_argument("--No_inference", help="Indicate if want to run the inference, or if you want to change the post-processing of the model output",action='store_true')
 parser.add_argument("--Mute", help="Indicate if want to mute printing of statements during execution of the script",action='store_true')
@@ -50,7 +49,8 @@ if __name__ == "__main__":
 
     patient_folder=os.path.join(paths["Path_to_storage"],args.Experiment_name)
 
-    if args.Use_existing_folder == False:
+
+    if args.No_inference==False:
         patient_folder=Check_storage_dir(patient_folder)
 
         if args.Mute==False:
@@ -97,17 +97,26 @@ if __name__ == "__main__":
 
     if args.Switch_left_right==False:
         Path_to_label_translation_dict=os.path.join(current_wd,'utils','Bone_labels_pov_patient.json')
+        Switch_orientation=True
     else:
         Path_to_label_translation_dict=os.path.join(current_wd,'utils','Bone_labels_pov_outside.json')
+        Switch_orientation=False
 
     Path_to_neighbouring_files=os.path.join(current_wd,'utils','Neighbour_file.json')
-    Affected_bones,Neighbouring_bones,Summary_dict=Obtain_single_label(path_to_bone_types, patient_folder,Path_to_neighbouring_files,TH=args.Minimal_TH)
+
+    Affected_bones,Neighbouring_bones,Summary_dict=Obtain_single_label(path_to_bone_types, patient_folder,Path_to_neighbouring_files,
+                                                            Path_to_transformation_dict=Path_to_label_translation_dict,TH=args.Minimal_TH)
 
     if args.Remove_2D_bone_overview==False:
         Create_2D_bone_overview(Affected_bones,Neighbouring_bones,current_wd,path_to_bone_types,patient_folder,Path_to_transformation_dict=Path_to_label_translation_dict)
 
+    path_to_bone_switch_label=os.path.join(current_wd,'utils','Bone_label_switch.json')
+
     Path_to_transformed_lesion_label_overview=os.path.join(patient_folder,'Annotation_info',"Transformed_Lesion_centroids.xlsx")
-    Summary_df=Create_summary_results(Summary_dict,patient_folder,Path_to_transformed_lesion_label_overview)
+
+    Summary_df=Create_summary_results(Summary_dict,patient_folder,Path_to_transformed_lesion_label_overview,path_to_bone_switch_label,path_to_bone_types,Switch_orientation=Switch_orientation)
+
+    Create_nii_output(paths['Path_to_abnormalities'],args.Scan_name,patient_folder,Summary_df,Rotate=args.Rotate_input, Flip=args.Flip_input)
 
     Cleanup_folder(patient_folder,Remove_segmentation_folders=args.Finalize_inference)
 

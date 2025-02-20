@@ -2,10 +2,15 @@ import os
 import numpy as np
 import json
 import pandas as pd
+from utils.PostProcessing.Return_label_functions import Return_label_dict
 
-def Create_summary_results(Summary_dict,Storage_dir,Path_to_centroids):
+def Create_summary_results(Summary_dict,Storage_dir,Path_to_centroids,path_to_bone_switch_label,path_to_bone_types,Switch_orientation=True):
 
-    Overall_summary_dict={"Lesion":[],"Centroid_x":[],"Centroid_y":[],"Centroid_z":[],"1st Prediction":[], "fraction":[], "2nd Prediction":[],"fraction":[]}
+    Bone_to_int_dictionary=Return_label_dict(path_to_bone_types)
+
+    with open(path_to_bone_switch_label, 'r') as file:
+        Switch_dictionary = json.load(file)
+    file.close()
 
     Lesions=pd.read_excel(Path_to_centroids)
 
@@ -25,11 +30,19 @@ def Create_summary_results(Summary_dict,Storage_dir,Path_to_centroids):
     for i in range(len(Keys)):
         Keys_index=Combinations.index(Keys[i])
 
-        Overall_summary_dict={"Centroid_x":[],"Centroid_y":[],"Centroid_z":[],"1st Prediction":[], "fraction_1":[], "2nd Prediction":[],"fraction_2":[]}
+        Overall_summary_dict={"Lesion_ID":[],"Centroid_x":[],"Centroid_y":[],"Centroid_z":[],"1st Prediction":[],"1st Prediction (range)":[],
+                                    "1st Prediction (int)":[],"Fraction_of_predictions_1":[] ,"2nd Prediction":[],"Fraction_of_predictions_2":[]}
+
         instance=Summary_dict[Keys[i]]
 
         All_labels=instance["All_Labels"]
         All_occurences=instance["All_no_occurences"]
+        Max_neighbours=instance["Neighbours_max_pred"]
+        Output_int=instance["Output"]
+
+        if Switch_orientation==True:
+            Output_int=Switch_dictionary[Output_int]
+        Output_int=Bone_to_int_dictionary[Output_int]
 
         sorted_labels = [val for _, val in sorted(zip(All_occurences, All_labels),reverse=True)]
         sorted_occurences=sorted(All_occurences,reverse=True)
@@ -49,18 +62,45 @@ def Create_summary_results(Summary_dict,Storage_dir,Path_to_centroids):
             sorted_labels.append('-')
             sorted_occurences.append(0)
 
+        Index_max_label=All_labels.index(sorted_labels[0])
+        Neighbours=Max_neighbours
+        Neighbours=[str(i) for i in Neighbours]
+        Neighbours="-".join(Neighbours)
+
+        if len(Neighbours)>0:
+            Neighbours='%s'%Neighbours
+
+        Overall_summary_dict["Lesion_ID"]=  Keys[i]
         Overall_summary_dict["Centroid_x"]=  np.round(Xs[Keys_index])
         Overall_summary_dict["Centroid_y"]=  np.round(Ys[Keys_index])
         Overall_summary_dict["Centroid_z"]=  np.round(Zs[Keys_index])
-        Overall_summary_dict["1st Prediction"]=  sorted_labels[0]
-        Overall_summary_dict["fraction_1"]=   np.round(sorted_occurences[0]/Total_nr_predictions,2)
+        Overall_summary_dict["1st Prediction"]=  str(sorted_labels[0])
+        Overall_summary_dict["1st Prediction (range)"]= Neighbours
+        Overall_summary_dict["1st Prediction (int)"]=   Output_int
+        Overall_summary_dict["Fraction_of_predictions_1"]=   np.round(sorted_occurences[0]/Total_nr_predictions,2)
         Overall_summary_dict["2nd Prediction"]=  sorted_labels[1]
-        Overall_summary_dict["fraction_2"]= np.round(sorted_occurences[1]/Total_nr_predictions,2)
+        Overall_summary_dict["Fraction_of_predictions_2"]= np.round(sorted_occurences[1]/Total_nr_predictions,2)
 
         Complete_summary_dict[Keys[i]]=Overall_summary_dict
 
     df = pd.DataFrame.from_dict(data=Complete_summary_dict,orient='index')
-    df.to_excel(os.path.join(Storage_dir,"Summary.xlsx"))
 
+    file_path = os.path.join(Storage_dir,"Summary.xlsx")
+    with pd.ExcelWriter(file_path, engine="openpyxl") as writer:
+        df.to_excel(writer, sheet_name="Sheet1", index=False)
+
+        workbook = writer.book
+        worksheet = writer.sheets["Sheet1"]
+
+        for col in worksheet.columns:
+            max_length = 0
+            col_letter = col[0].column_letter
+            for cell in col:
+                try:
+                    if cell.value:
+                        max_length = max(max_length, len(str(cell.value)))
+                except:
+                    pass
+            worksheet.column_dimensions[col_letter].width = max_length + 2  # Extra padding
 
     return df

@@ -6,7 +6,11 @@ import numpy as np
 import json
 from utils.PostProcessing.Return_label_functions import Return_label_dict
 
-def Obtain_single_label(Path_to_desired_labels,Path_to_patient,Path_to_neighbour_dict,TH=False):
+def Obtain_single_label(Path_to_desired_labels,Path_to_patient,Path_to_neighbour_dict,Path_to_transformation_dict,TH=False):
+
+    with open(Path_to_transformation_dict, 'r') as file:
+        Label_transformation_dict = json.load(file)
+    file.close()
 
     with open(Path_to_neighbour_dict, 'r') as file:
         Neighbouring_dict = json.load(file)
@@ -60,6 +64,7 @@ def Obtain_single_label(Path_to_desired_labels,Path_to_patient,Path_to_neighbour
 
         if len(Occurences)==0:
             print('No bone detected')
+            Lesion_dict["Output"]=None
             Lesion_dict["Detected"]=False
             Lesion_dict["Max_label"]=None
             Lesion_dict["All_Labels"]=[]
@@ -71,15 +76,19 @@ def Obtain_single_label(Path_to_desired_labels,Path_to_patient,Path_to_neighbour
             Max_pred=np.argmax(Occurences)
             Output=Unique_labels[Max_pred]
             Lesion_dict["Detected"]=True
-            Lesion_dict["Max_label"]=reversed_dict[Output.astype(float)]
-            Lesion_dict["All_Labels"]=[reversed_dict[i.astype(float)] for i in Unique_labels]
+            Lesion_dict["Output"]=reversed_dict[Output.astype(float)]
+            Lesion_dict["Max_label"]=Label_transformation_dict[reversed_dict[Output.astype(float)]]
+            Lesion_dict["All_Labels"]=[Label_transformation_dict[reversed_dict[i.astype(float)]] for i in Unique_labels]
             Lesion_dict["All_no_occurences"]=Occurences
 
             Neighbour_bone_keys=Neighbouring_dict[str(Output)]
             if "Acceptable" in list(Neighbour_bone_keys.keys()):
-                Lesion_dict['Neighbours_max_pred']=Neighbouring_dict[str(Output)]['Acceptable']
+
+                Lesion_dict['Neighbours_max_pred']=[Label_transformation_dict[reversed_dict[float(i)]] for i in Neighbouring_dict[str(Output)]['Acceptable']]
                 Neighbouring_bones=Neighbouring_bones+Neighbouring_dict[str(Output)]['Acceptable']
 
+            else:
+                Lesion_dict['Neighbours_max_pred']=[]
             Detected_labels.append(Output)
 
         Summary_dict[All_lesions[i]]=Lesion_dict
