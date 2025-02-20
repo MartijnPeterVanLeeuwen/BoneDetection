@@ -14,7 +14,7 @@ Functions=Data_processing()
 
 
 def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_labels,Path_to_all_bones,storage_dir,Exclude_Costal_Cartlidge=True,
-                             Visualize_neighbouring_bones=True,Path_to_transformation_dict=None):
+                             Visualize_neighbouring_bones=True,Path_to_transformation_dict=None,Mute_text=False):
 
 
     if Path_to_transformation_dict!=None:
@@ -166,11 +166,11 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
             margin=50
 
-            start_point_left=-120
+            start_point_left=-135
             start_point_right=complete_bone_mask.shape[1]+20
             Unique_label_detections=np.unique(Affected_bones)
             Processed_labels=[]
-            fontsize=8
+            fontsize=5
 
             for j in range(len(Affected_bones)):
                 No_counts=0
@@ -204,7 +204,7 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
                         letters=len(bone_label)
                         current_sp=start_point_left-letters-margin
-                        if make_label:
+                        if make_label and Mute_text==False:
                             ax[index].hlines(k[1], xmin=start_point_left, xmax=start,linestyles='dotted')
                             ax[index].text(start_point_left,k[1],bone_label,fontsize=fontsize,color='black')
 
@@ -225,7 +225,7 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
                         letters=len(bone_label)
                         current_sp=start_point_left-letters-margin
 
-                        if make_label:
+                        if make_label and Mute_text==False:
                             ax[index].hlines(k[1], xmin=start_point_left, xmax=start,linestyles='dotted')
                             ax[index].text(start_point_left,k[1],bone_label,fontsize=fontsize,color='black')
 

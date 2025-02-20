@@ -32,6 +32,8 @@ parser.add_argument("--Mute", help="Indicate if want to mute printing of stateme
 parser.add_argument("--Remove_2D_bone_overview", help="Indicate if you dont want to include a 2D bone overview ",action='store_true')
 parser.add_argument("--Finalize_inference", help="Indicate if you want to remove all the files that can be used to change the prediction labels ",action='store_true')
 parser.add_argument("--Switch_left_right", help="Depending on the orientation, left and right can be switched ",action='store_true')
+parser.add_argument("--Mute_text_in_plot", help="Mute the plotting of the labels in the plots if it gets too cluttered ",action='store_true')
+
 
 # Parse arguments
 args = parser.parse_args()
@@ -108,7 +110,7 @@ if __name__ == "__main__":
                                                             Path_to_transformation_dict=Path_to_label_translation_dict,TH=args.Minimal_TH)
 
     if args.Remove_2D_bone_overview==False:
-        Create_2D_bone_overview(Affected_bones,Neighbouring_bones,current_wd,path_to_bone_types,patient_folder,Path_to_transformation_dict=Path_to_label_translation_dict)
+        Create_2D_bone_overview(Affected_bones,Neighbouring_bones,current_wd,path_to_bone_types,patient_folder,Path_to_transformation_dict=Path_to_label_translation_dict,Mute_tex=args.Mute_text_in_plot)
 
     path_to_bone_switch_label=os.path.join(current_wd,'utils','Bone_label_switch.json')
 
