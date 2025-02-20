@@ -1,6 +1,6 @@
 # Classes
 
-These are the classes that are outputted by Yolov5. Note that left and right can be switched depending on the user's preference. The default setting of our code is to switch the labels. This means that label 1 becomes "clavicula_right" and clavicula_left" becomes "clavicle_right".
+These are the classes that are outputted by our YOLOv5 model. Note that "left" and "right" can be switched depending on the user's preference. The default setting of our code is to switch the labels. This means that label 1 becomes "clavicula_right" and label 2 becomes "clavicle_left".
 
 names:
   1: clavicula_left
