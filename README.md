@@ -2,6 +2,7 @@
 # Welcome to the Multiplanar (MP) YOLOv5 Based Bone Identification Method
 Welcome to the GitHub page for our multiplanar bone detection method. This GitHub page makes use of the [YOLOv5](https://github.com/ultralytics/yolov5) framework, which we used to train a bone detection and identification method to localize 64 different bones (and costal cartilage) in the axial, coronal and sagittal planes of Computed Tomography (CT) scans. These models were trained on scans and bone labels that originated from a selection of the [Total Segmentator](https://github.com/wasserth/TotalSegmentator) dataset CT scans. Below we will explain what this method can do, and how to get started. If you decide to make use of this method, please cite our paper [link]() 
 ![Affected_Bones](https://github.com/user-attachments/assets/d931d1bb-9668-4da4-8730-1b7b68ec0f9e)
+![Affected_Bones](https://github.com/user-attachments/assets/457b6a60-6978-4666-a9fd-fa2006e3200a)
 
 
 ## What can this GitHub be used for? 
@@ -95,6 +96,7 @@ This will start executing the code for scan *"test_1.nii"* and create a folder *
 - ``` --Remove_2D_bone_overview ```** :  Indicate if you do not want to create the "Affected_Bones.PNG" image  (Action argument, ```Default=False```)
 - ```--Finalize_inference"```**: If you do not want to tweak any parameters, these parameters will remove all files that are not needed anymore
 - ``` --Switch_left_right```** : Indicate if you want to switch the orientation of left and right.
+- ```--Mute_text_in_plot```** : Can be used to remove all plotting in the ```Affected_Bones.PNG```
 
 ** = To put these arguments in effect, simply add them as arguments to the input data
 
