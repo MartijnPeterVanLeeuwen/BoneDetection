@@ -46,16 +46,16 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
         while Approved==False:
             max_depth=np.argmax(coordinates[0,:])
 
-            Coordinate_intensity_neighbour=Swapped_lab[coordinates[0][max_depth]-3:coordinates[0][max_depth]+3,
-                                            coordinates[1][max_depth]-3:coordinates[1][max_depth]+3,
-                                           coordinates[2][max_depth]-3:coordinates[2][max_depth]+3]
+            Coordinate_intensity_neighbour=Swapped_lab[coordinates[0][max_depth]-3:coordinates[0][max_depth]+5,
+                                            coordinates[1][max_depth]-3:coordinates[1][max_depth]+5,
+                                           coordinates[2][max_depth]-3:coordinates[2][max_depth]+5]
 
             unique_labels=np.unique(Coordinate_intensity_neighbour)
             unique_labels=[i for i in unique_labels if i!=0]
             Counts=[list(Coordinate_intensity_neighbour.flatten()).count(i) for i in unique_labels]
             Max_label=unique_labels[np.argmax(Counts)]
 
-            if Max_label==Affected_bones[i] and Counts[np.argmax(Counts)]>10:
+            if Max_label==Affected_bones[i] and Counts[np.argmax(Counts)]>20:
                 Approved==True
                 break
             else:
@@ -70,17 +70,38 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
         centroid_affected_bones.append(Selected_coordinates)
         empty_vol[coordinates[0,:],coordinates[1,:],coordinates[2,:]]+=0.33
 
+    #sorted_labels = [val for _, val in sorted(zip(centroid_affected_bones, All_labels),reverse=True)]
+
     sorted_centroids = sorted(centroid_affected_bones, key=lambda x: x[1])
 
     init=0
-    min_distance=9
-
+    min_distance=10
+    Done=[]
+    Side=[]
+    previous_side=0
     for i in range(len(sorted_centroids)):
-        slice_distance=sorted_centroids[i][1]-init
-        if slice_distance<min_distance:
-            sorted_centroids[i][1]+=min_distance-slice_distance
-        init=sorted_centroids[i][1]
 
+        if sorted_centroids[i][3] not in Done:
+            bone_label=sorted_centroids[i][3]
+
+            slice_distance=sorted_centroids[i][1]-init
+
+            if slice_distance<min_distance and previous_side==0:
+
+                sorted_centroids[i][1]+=min_distance-slice_distance
+                Side.append(1)
+                previous_side=1
+            else:
+                Side.append(0)
+                previous_side=0
+
+
+            b0=bone_label
+
+            init=sorted_centroids[i][1]
+            Done.append(sorted_centroids[i][3])
+        else:
+            Side.append(-1)
     Only_neigbouring=np.zeros(empty_vol.shape)
     Only_neigbouring[np.where(empty_vol==0)]=1
 
@@ -92,9 +113,7 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
     Swapped_label_copy=copy.copy(Swapped_lab)
 
-    #fig,ax=plt.subplots(1,4,figsize=(15,5),dpi=400)
-    #fig,ax=plt.subplots(1,4,figsize=(14.5,5),dpi=400)
-    fig,ax=plt.subplots(1,4,figsize=(14.9,5),dpi=400)
+    fig,ax=plt.subplots(1,4,figsize=(14.8,5),dpi=400)
 
     plt.subplots_adjust(top=None, wspace=None, hspace=0.1)
     for iii in range(2):
@@ -166,7 +185,7 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
             margin=50
 
-            start_point_left=-135
+            start_point_left=-90
             start_point_right=complete_bone_mask.shape[1]+20
             Unique_label_detections=np.unique(Affected_bones)
             Processed_labels=[]
@@ -177,15 +196,16 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
                 k=sorted_centroids[j]
 
-                if k[-1] not in Processed_labels:
+                if k[3] not in Processed_labels:
 
-                    Processed_labels.append(k[-1])
-                    bone_label=Reversed_label_dict[k[-1]]
+                    side=Side[j]
+                    Processed_labels.append(k[3])
+                    bone_label=Reversed_label_dict[k[3]]
 
                     if Path_to_transformation_dict!=None:
                         bone_label=Label_transformation_dict[bone_label]
 
-                    No_counts=Affected_bones.count(k[-1])
+                    No_counts=Affected_bones.count(k[3])
                     if No_counts>1:
                         bone_label=bone_label+' (%sx)'%No_counts
 
@@ -193,32 +213,73 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
                         make_label=True
                         if iii==0:
                             index=0
-                            start=k[2]
+
+                            if side==0:
+                                start=k[2]
+                                end=start_point_left
+                                side_text=start_point_left
+
+                            else:
+                                start=start_point_right
+                                end=k[2]
+                                side_text=start_point_right
+
                             if 'left' in bone_label:
                                 make_label=False
                         else:
                             index=2
                             start=complete_bone_mask.shape[1]-k[2]
+
+                            if side==0:
+                                start=complete_bone_mask.shape[1]-k[2]
+                                end=start_point_left
+                                side_text=start_point_left
+                            else:
+                                start=start_point_right
+                                end=complete_bone_mask.shape[1]-k[2]
+                                side_text=start_point_right
+
                             if 'right' in bone_label:
                                 make_label=False
 
                         letters=len(bone_label)
                         current_sp=start_point_left-letters-margin
+
                         if make_label and Mute_text==False:
-                            ax[index].hlines(k[1], xmin=start_point_left, xmax=start,linestyles='dotted')
-                            ax[index].text(start_point_left,k[1],bone_label,fontsize=fontsize,color='black')
+                            ax[index].hlines(k[1], xmin=end, xmax=start,linestyles='dotted')
+                            ax[index].text(side_text,k[1],bone_label,fontsize=fontsize,color='black')
 
                     else:
 
                         make_label=True
                         if iii==1:
                             index=3
-                            start=complete_bone_mask.shape[1]-k[0]
+
+                            if side==0:
+                                start=complete_bone_mask.shape[1]-k[0]
+                                end=start_point_left
+                                side_text=start_point_left
+                            else:
+                                start=start_point_right
+                                end=complete_bone_mask.shape[1]-k[0]
+                                side_text=start_point_right
+
+#                            start=complete_bone_mask.shape[1]-k[0]
                             if 'right' in bone_label:
                                 make_label=False
                         else:
                             index=1
                             start=k[0]
+                            if side==0:
+                                start=k[0]
+                                end=start_point_left
+                                side_text=start_point_left
+                            else:
+                                start=k[0]
+                                end=start_point_right
+                                side_text=start_point_right
+
+
                             if 'left' in bone_label:
                                 make_label=False
 
@@ -226,8 +287,8 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
                         current_sp=start_point_left-letters-margin
 
                         if make_label and Mute_text==False:
-                            ax[index].hlines(k[1], xmin=start_point_left, xmax=start,linestyles='dotted')
-                            ax[index].text(start_point_left,k[1],bone_label,fontsize=fontsize,color='black')
+                            ax[index].hlines(k[1], xmin=end, xmax=start,linestyles='dotted')
+                            ax[index].text(side_text,k[1],bone_label,fontsize=fontsize,color='black')
 
 
                 Complete_overview[:,:,0]=complete_bone_mask
