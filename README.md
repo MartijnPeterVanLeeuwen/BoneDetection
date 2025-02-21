@@ -113,7 +113,7 @@ If you have already run the bone detection models but would like to change the p
 python Predict.py --Scan_name test_1.nii --Experiment_name Experiment --No_inference --IoU 0.5 --Minimal_TH 0.5
 
 ```
-In this example, the results from the folder ```Experiment``` are used, only now an ```--IoU``` of ```0.5``` and ```--Minimal_TH```of ```0.5``` is used. Make sure that you use the correct ```--Experiment_name``` file. 
+In this example, the results from the folder ```Experiment``` are used, only now an ```--IoU``` of ```0.5``` and ```--Minimal_TH```of ```0.5``` is used. Make sure that you use the correct ```--Experiment_name``` file. This is ofcourse not necessary, but it illustrates that you can rerun the code without needing to rerun all the predictions. 
 
 </details>
 
