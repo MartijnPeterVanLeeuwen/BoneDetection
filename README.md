@@ -149,7 +149,7 @@ The content of the other folders can be found below.
                                                                   ├── 2_1_-1_test_1_x_y_z.png
                                                                   ├── ...
 ```
-- ```Lesion_centroids.json ``` : Centroid of each lesion in the annotation file.
+- ```Lesion_centroids.json ``` : Centroid of each lesion in the annotation file after rotating and flipping.
 - ```Transformed_Lesion_centroids.xlsx ``` :  Centroids of the lesions after applying scaling, rotation, and flipping (if necessary).  
 - ```Segmentation_masks ``` : This folder contains images of the annotation masks of the bone abnormalities. These are used to determine what bounding box overlaps with the annotated bone abnormality.
 
