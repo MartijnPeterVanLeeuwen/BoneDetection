@@ -6,6 +6,9 @@ Welcome to the GitHub page for our multiplanar bone detection method. This GitHu
 ## What can this GitHub be used for? 
 This method was designed to identify the locations of bone abnormalities such as bone lesions, tumors, or fractures. By providing a segmentation mask in which all the voxels of these abnormalities are annotated, in combination with the corresponding CT scan, we can automatically give the bone in which the abnormalities are located. The bones that can be detected with this method are the following:
 
+<details>
+<summary> Included Bones </summary>
+
 - Skull
 - Spine $^1$
 - Clavicula $^2$
@@ -22,6 +25,7 @@ $^1$: Makes a distinction between bone levels,
 $^2$: Makes a distinction between left and right
 
 For the ribs and the vertebrae, the method also provides the exact bone level in which the abnormality is located. However, the method is less precise when predicting an exact level, but is much better when estimating a range of 3 bone levels (predicted level + neighboring bone levels). We therefore also provide the option to return a range of bone labels for these methods.
+</details>
 
 ## What do you need to run it? 
 Not much is the answer! To execute this code, you do not need expensive hardware, as you can run it on your laptop. However, the process is of course sped up whenever you run it with a GPU. In terms of data, you will need a CT scan in combination with a segmentation mask (of the same size) in which the voxels of the bone abnormality are annotated.  
