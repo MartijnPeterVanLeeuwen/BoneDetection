@@ -131,7 +131,7 @@ In this example, the results from the folder ```Experiment``` are used, only now
 
 </details>
 
-## What is outputted
+## Output
 The code creates a folder containing several results. This section will discuss what these outputs mean so that you can extract the information you need from the results. The code creates 3 folders and 3 files as shown below
 ```
 ../Path_to_storage/Experiment
