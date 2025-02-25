@@ -271,7 +271,6 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
                                 end=complete_bone_mask.shape[1]-k[0]
                                 side_text=start_point_right
 
-#                            start=complete_bone_mask.shape[1]-k[0]
                             if 'right' in bone_label:
                                 make_label=False
                         else:

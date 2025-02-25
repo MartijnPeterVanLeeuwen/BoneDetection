@@ -44,9 +44,10 @@ def Predict_multi_model_function(Path_to_CT,Label,Name_scan,Path_to_yolo_folder,
 
     Lesion_centroid_dataframe=pd.read_excel(Path_to_lesion_centroids)
     Additional_slices=int(np.floor(Total_number_of_slices/2))
+    Copy_label=[copy.copy(Label[0])]
 
     for model_nr in range(len(MODELS)):
-
+        Label=Copy_label
         MODEL_NR=MODELS[model_nr]
 
         Crossection_folder=os.path.join(Patient_result_folder,Model_Names[model_nr])

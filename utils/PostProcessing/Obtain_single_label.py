@@ -63,7 +63,7 @@ def Obtain_single_label(Path_to_desired_labels,Path_to_patient,Path_to_neighbour
         Occurences=[Predictions.count(i) for i in Unique_labels]
 
         if len(Occurences)==0:
-            print('No bone detected')
+            #print('No bone detected')
             Lesion_dict["Output"]=None
             Lesion_dict["Detected"]=False
             Lesion_dict["Max_label"]=None
