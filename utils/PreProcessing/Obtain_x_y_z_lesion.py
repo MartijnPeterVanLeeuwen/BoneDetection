@@ -65,6 +65,8 @@ def Obtain_x_y_z_lesion(Path_to_Label, Path_to_lesion_label_overview, File_name,
             Scaled_centroids_x.append(np.round(Centroid[0]*Scale_x).astype(int))
             Scaled_centroids_y.append(np.round(Centroid[1]*Scale_y).astype(int))
             Scaled_centroids_z.append(np.round(Centroid[-1]*Scale_z).astype(int))
+            coordinates=Regions[j].coords
+            Annotation[0][coordinates[:,0],coordinates[:,1],coordinates[:,2]]=(j+1)
 
     Dataframe={"Lesion_ID":Lesion_ID,
                             "Centroid_x":Centroids_x,
@@ -80,4 +82,4 @@ def Obtain_x_y_z_lesion(Path_to_Label, Path_to_lesion_label_overview, File_name,
     Storage_folder=os.path.join(Patient_folder,'Annotation_info')
     Dataframe.to_excel(os.path.join(Storage_folder,"Transformed_Lesion_centroids.xlsx"))
 
-    return None
+    return Annotation

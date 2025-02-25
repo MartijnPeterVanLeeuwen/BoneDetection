@@ -18,7 +18,7 @@ from utils.PreProcessing.Move_prediction_files import Move_prediction_files
 from matplotlib import image
 Functions=Data_processing()
 
-def Predict_multi_model_function(Path_to_CT,Path_to_Lesion_label,Name_scan,Path_to_yolo_folder,Patient_ID,Path_to_main_folder,Path_to_weights,
+def Predict_multi_model_function(Path_to_CT,Label,Name_scan,Path_to_yolo_folder,Patient_ID,Path_to_main_folder,Path_to_weights,
                                  Total_number_of_slices=3,GPU=0,L=400,W=1800,Min_size_im=548,Max_size_im=757,
                                 rotation=False,flip=False,IOU_threshold=0.45,MODELS=["Axial","Sagital","Coronal"],
                                 Dont_save_prediction_images=False):
@@ -57,7 +57,7 @@ def Predict_multi_model_function(Path_to_CT,Path_to_Lesion_label,Name_scan,Path_
            os.makedirs(Path_to_label_folder)
 
         Image, Header = Functions.Loading_Nifti_data(Path_to_CT, Name_scan, Mute=True, Resize=False)
-        Label,Header= Functions.Loading_Nifti_data(Path_to_Lesion_label, Name_scan,Mute=True,Resize=False)
+        #Label,Header= Functions.Loading_Nifti_data(Path_to_Lesion_label, Name_scan,Mute=True,Resize=False)
 
         if rotation!=False:
             Image = [np.rot90(Image[0], rotation)]
@@ -91,6 +91,7 @@ def Predict_multi_model_function(Path_to_CT,Path_to_Lesion_label,Name_scan,Path_
             x = np.array(Lesion_centroid_dataframe["Scaled_centroid_x"])+diff_x
             y = np.array(Lesion_centroid_dataframe["Scaled_centroid_y"])+diff_y
             z = np.array(Lesion_centroid_dataframe["Scaled_centroid_z"])+diff_z
+
             label_lesion = list(Lesion_centroid_dataframe["Label"])
             iD_lesion = list(Lesion_centroid_dataframe["Lesion_ID"])
 
@@ -114,6 +115,7 @@ def Predict_multi_model_function(Path_to_CT,Path_to_Lesion_label,Name_scan,Path_
                 Coordinates=list(z)
 
             if Model_Names[model_nr]=="Sagital":
+
                 Input_size = 672
                 axis=0
                 Swapstatus=True
@@ -160,7 +162,7 @@ def Predict_multi_model_function(Path_to_CT,Path_to_Lesion_label,Name_scan,Path_
                         Selectected_label = copy.copy(np.round(Label[0][:, :, ii]))
 
                         Empty_label_slice=np.zeros(Selectected_label.shape)
-                        Empty_label_slice[np.where(Selectected_label==np.round(label_lesion[coordinate]).astype(int))]=1
+                        Empty_label_slice[np.where(Selectected_label==np.round(iD_lesion[coordinate]).astype(int))]=1
 
                         image.imsave(os.path.join(Crossection_folder,"%s_%s_%s_%s_%s_%s_%s.png"%(lesion+1,label_lesion[coordinate],location_index,Patient_ID,int(x_value),int(y_value),z)),Slice,cmap="gray",vmin=0,vmax=1)
                         image.imsave(os.path.join(Path_to_label_folder,"%s_%s_%s_%s_%s_%s_%s.png"%(lesion+1,label_lesion[coordinate],location_index,Patient_ID,int(x_value),int(y_value),z)),Empty_label_slice,cmap="gray",vmin=0,vmax=1)

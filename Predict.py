@@ -70,7 +70,7 @@ if __name__ == "__main__":
     Path_to_lesion_label_overview=Create_Abnormality_overview(args.Scan_name,path_to_bone_types,path_to_segmentations,patient_folder,
                                 rotation=args.Rotate_input, flip=args.Flip_input)
 
-    Obtain_x_y_z_lesion(paths['Path_to_abnormalities'], Path_to_lesion_label_overview, args.Scan_name, patient_folder,
+    Annotation=Obtain_x_y_z_lesion(paths['Path_to_abnormalities'], Path_to_lesion_label_overview, args.Scan_name, patient_folder,
                                 rotation=args.Rotate_input, flip=args.Flip_input)
 
     if args.No_inference==False:
@@ -82,7 +82,7 @@ if __name__ == "__main__":
         Path_to_weights=os.path.join(current_wd,'weights')
         Path_to_yolo_folder=os.path.join(path_to_utils,'Model')
 
-        Predict_multi_model_function(paths["Path_to_input_CT"],paths['Path_to_abnormalities'] , args.Scan_name,Path_to_yolo_folder,
+        Predict_multi_model_function(paths["Path_to_input_CT"],Annotation, args.Scan_name,Path_to_yolo_folder,
                             Patient_ID, patient_folder, Path_to_weights=Path_to_weights,Total_number_of_slices=args.Slices, GPU=args.Device,
                             L=400, W=1800,IOU_threshold=args.IoU, Dont_save_prediction_images=args.Dont_save_prediction_images,
                             rotation=args.Rotate_input, flip=args.Flip_input)
