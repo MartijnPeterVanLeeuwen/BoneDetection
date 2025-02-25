@@ -4,7 +4,7 @@ Welcome to the GitHub page for our multiplanar bone detection method. This GitHu
 ![Affected_Bones](https://github.com/user-attachments/assets/457b6a60-6978-4666-a9fd-fa2006e3200a)
 
 ## What can this GitHub be used for? 
-This method was designed to identify the locations of bone abnormalities such as bone lesions, tumors, or fractures. By providing a segmentation mask in which all the voxels of these abnormalities are annotated, in combination with the corresponding CT scan, we can automatically give the bone in which the abnormalities are located. The bones that can be detected with this method are the following:
+This method was designed to identify the locations of bone abnormalities such as bone lesions, tumors, or fractures. By providing a segmentation mask in which all the voxels of these abnormalities are annotated, in combination with the corresponding CT scan, we can automatically give the bone in which the abnormalities are located. The bones that can be detected with this method is shown below:
 
 <details>
 <summary> Included Bones </summary>
