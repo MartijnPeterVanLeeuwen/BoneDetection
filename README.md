@@ -97,7 +97,7 @@ This will start executing the code for scan *"test_1.nii"* and create a folder *
 - ```--Finalize_inference"```**: If you do not want to tweak any parameters, these parameters will remove all files that are not needed anymore
 - ``` --Switch_left_right```** : Indicate if you want to switch the orientation of left and right.
 - ```--Mute_text_in_plot```** : Can be used to remove all plotting in the ```Affected_Bones.PNG```
-- ```--Reduce_labels```**: Removes the level of the vertebrae and rib in the ```Summary.xlsx``` file and gives all abnormalities in the spine and ribs a value of 100 and 101 in the  ```Labeld_annotation_file.nii```
+- ```--Reduce_labels```**: Removes the level of the vertebrae and rib in the ```Summary.xlsx``` file and gives all abnormalities in the spine and ribs a value of ```100``` and ```101``` in the  ```Labeld_annotation_file.nii```
 
 ** = To put these arguments in effect, simply add them as arguments to the input data
 
