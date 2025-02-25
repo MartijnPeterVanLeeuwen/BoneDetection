@@ -4,7 +4,7 @@ import json
 import pandas as pd
 from utils.PostProcessing.Return_label_functions import Return_label_dict
 
-def Create_summary_results(Summary_dict,Storage_dir,Path_to_centroids,path_to_bone_switch_label,path_to_bone_types,Switch_orientation=True):
+def Create_summary_results(Summary_dict,Storage_dir,Path_to_centroids,path_to_bone_switch_label,path_to_bone_types,Switch_orientation=True,Reduce_label=False):
 
     Bone_to_int_dictionary=Return_label_dict(path_to_bone_types)
 
@@ -42,6 +42,7 @@ def Create_summary_results(Summary_dict,Storage_dir,Path_to_centroids,path_to_bo
 
         if Switch_orientation==True:
             Output_int=Switch_dictionary[Output_int]
+
         Output_int=Bone_to_int_dictionary[Output_int]
 
         sorted_labels = [val for _, val in sorted(zip(All_occurences, All_labels),reverse=True)]
@@ -50,6 +51,7 @@ def Create_summary_results(Summary_dict,Storage_dir,Path_to_centroids,path_to_bo
         Label_dict={}
 
         for ii in range(len(sorted_occurences)):
+
             if ii <2:
                 percentage=sorted_occurences[ii]/Total_nr_predictions
 
@@ -59,6 +61,7 @@ def Create_summary_results(Summary_dict,Storage_dir,Path_to_centroids,path_to_bo
                     Label_dict[sorted_labels[ii]]=np.round(percentage,2)
 
         while len(sorted_labels)<2:
+
             sorted_labels.append('-')
             sorted_occurences.append(0)
 
@@ -70,6 +73,19 @@ def Create_summary_results(Summary_dict,Storage_dir,Path_to_centroids,path_to_bo
         if len(Neighbours)>0:
             Neighbours='%s'%Neighbours
 
+        if Reduce_label==True:
+            if 'rib' in str(sorted_labels[0]):
+                sorted_labels[0]='Rib'
+                Output_int=100
+            if 'vertebra' in str(sorted_labels[0]):
+                sorted_labels[0]='Vertebra'
+                Output_int=101
+            if 'rib' in str(sorted_labels[1]):
+                sorted_labels[1]='Rib'
+            if 'vertebra' in str(sorted_labels[1]):
+                sorted_labels[1]='Vertebra'
+            Neighbours='-'
+
         Overall_summary_dict["Lesion_ID"]=  Keys[i]
         Overall_summary_dict["Centroid_x"]=  np.round(Xs[Keys_index])
         Overall_summary_dict["Centroid_y"]=  np.round(Ys[Keys_index])
@@ -78,7 +94,7 @@ def Create_summary_results(Summary_dict,Storage_dir,Path_to_centroids,path_to_bo
         Overall_summary_dict["1st Prediction (range)"]= Neighbours
         Overall_summary_dict["1st Prediction (int)"]=   Output_int
         Overall_summary_dict["Fraction_of_predictions_1"]=   np.round(sorted_occurences[0]/Total_nr_predictions,2)
-        Overall_summary_dict["2nd Prediction"]=  sorted_labels[1]
+        Overall_summary_dict["2nd Prediction"]=  str(sorted_labels[1])
         Overall_summary_dict["Fraction_of_predictions_2"]= np.round(sorted_occurences[1]/Total_nr_predictions,2)
 
         Complete_summary_dict[Keys[i]]=Overall_summary_dict
@@ -86,6 +102,7 @@ def Create_summary_results(Summary_dict,Storage_dir,Path_to_centroids,path_to_bo
     df = pd.DataFrame.from_dict(data=Complete_summary_dict,orient='index')
 
     file_path = os.path.join(Storage_dir,"Summary.xlsx")
+
     with pd.ExcelWriter(file_path, engine="openpyxl") as writer:
         df.to_excel(writer, sheet_name="Sheet1", index=False)
 

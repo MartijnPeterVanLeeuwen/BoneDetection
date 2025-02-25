@@ -33,6 +33,7 @@ parser.add_argument("--Remove_2D_bone_overview", help="Indicate if you dont want
 parser.add_argument("--Finalize_inference", help="Indicate if you want to remove all the files that can be used to change the prediction labels ",action='store_true')
 parser.add_argument("--Switch_left_right", help="Depending on the orientation, left and right can be switched ",action='store_true')
 parser.add_argument("--Mute_text_in_plot", help="Mute the plotting of the labels in the plots if it gets too cluttered ",action='store_true')
+parser.add_argument("--Reduce_labels",help="Don't assign a level to the ribs or vertebrae, creating",action='store_true')
 
 
 # Parse arguments
@@ -110,13 +111,14 @@ if __name__ == "__main__":
                                                             Path_to_transformation_dict=Path_to_label_translation_dict,TH=args.Minimal_TH)
 
     if args.Remove_2D_bone_overview==False:
-        Create_2D_bone_overview(Affected_bones,Neighbouring_bones,current_wd,path_to_bone_types,patient_folder,Path_to_transformation_dict=Path_to_label_translation_dict,Mute_text=args.Mute_text_in_plot)
+        Create_2D_bone_overview(Affected_bones,Neighbouring_bones,current_wd,path_to_bone_types,patient_folder,
+                                Path_to_transformation_dict=Path_to_label_translation_dict,Mute_text=args.Mute_text_in_plot,Reduce_label=args.Reduce_labels)
 
     path_to_bone_switch_label=os.path.join(current_wd,'utils','Bone_label_switch.json')
 
     Path_to_transformed_lesion_label_overview=os.path.join(patient_folder,'Annotation_info',"Transformed_Lesion_centroids.xlsx")
 
-    Summary_df=Create_summary_results(Summary_dict,patient_folder,Path_to_transformed_lesion_label_overview,path_to_bone_switch_label,path_to_bone_types,Switch_orientation=Switch_orientation)
+    Summary_df=Create_summary_results(Summary_dict,patient_folder,Path_to_transformed_lesion_label_overview,path_to_bone_switch_label,path_to_bone_types,Switch_orientation=Switch_orientation,Reduce_label=args.Reduce_labels)
 
     Create_nii_output(paths['Path_to_abnormalities'],args.Scan_name,patient_folder,Summary_df,Rotate=args.Rotate_input, Flip=args.Flip_input)
 

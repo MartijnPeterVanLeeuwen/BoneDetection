@@ -14,7 +14,7 @@ Functions=Data_processing()
 
 
 def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_labels,Path_to_all_bones,storage_dir,Exclude_Costal_Cartlidge=True,
-                             Visualize_neighbouring_bones=True,Path_to_transformation_dict=None,Mute_text=False):
+                             Visualize_neighbouring_bones=True,Path_to_transformation_dict=None,Mute_text=False,Reduce_label=False):
 
 
     if Path_to_transformation_dict!=None:
@@ -206,6 +206,13 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
                         bone_label=Label_transformation_dict[bone_label]
 
                     No_counts=Affected_bones.count(k[3])
+
+                    if Reduce_label:
+                        if 'rib' in str(bone_label):
+                            bone_label='Rib'
+                        if 'vertebra' in str(bone_label):
+                            bone_label='Vertebra'
+
                     if No_counts>1:
                         bone_label=bone_label+' (%sx)'%No_counts
 
