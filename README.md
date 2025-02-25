@@ -65,7 +65,6 @@ git clone https://github.com/MartijnPeterVanLeeuwen/BoneDetection.git
 After cloning the git repository, create a new virtual environment in which you can install the required packages. The code was developed with python version 3.9. Using a different version might lead to conflicts between packages so make sure that the virtual environment runs on this python version. Upon activating this environment and navigating to the git directory, run the following command. 
 ```
 pip install -r /Requirements.txt
-
 ```
 This will install all the required packages. Note that you do not have to separately download the YOLOv5 directory, we have included it in Github in this [folder](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/tree/main/utils/Model). This code was directly downloaded from the original [YOLOv5](https://github.com/ultralytics/yolov5) GitHub page.
 </details>
