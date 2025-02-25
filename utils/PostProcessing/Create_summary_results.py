@@ -40,10 +40,13 @@ def Create_summary_results(Summary_dict,Storage_dir,Path_to_centroids,path_to_bo
         Max_neighbours=instance["Neighbours_max_pred"]
         Output_int=instance["Output"]
 
-        if Switch_orientation==True:
-            Output_int=Switch_dictionary[Output_int]
+        if Output_int!=None:
+            if Switch_orientation==True:
+                Output_int=Switch_dictionary[Output_int]
 
-        Output_int=Bone_to_int_dictionary[Output_int]
+            Output_int=Bone_to_int_dictionary[Output_int]
+        else:
+            Output_int=0
 
         sorted_labels = [val for _, val in sorted(zip(All_occurences, All_labels),reverse=True)]
         sorted_occurences=sorted(All_occurences,reverse=True)
@@ -65,7 +68,7 @@ def Create_summary_results(Summary_dict,Storage_dir,Path_to_centroids,path_to_bo
             sorted_labels.append('-')
             sorted_occurences.append(0)
 
-        Index_max_label=All_labels.index(sorted_labels[0])
+        #Index_max_label=All_labels.index(sorted_labels[0])
         Neighbours=Max_neighbours
         Neighbours=[str(i) for i in Neighbours]
         Neighbours="-".join(Neighbours)
@@ -85,6 +88,9 @@ def Create_summary_results(Summary_dict,Storage_dir,Path_to_centroids,path_to_bo
             if 'vertebra' in str(sorted_labels[1]):
                 sorted_labels[1]='Vertebra'
             Neighbours='-'
+
+        if Output_int==0:
+            Total_nr_predictions=1
 
         Overall_summary_dict["Lesion_ID"]=  Keys[i]
         Overall_summary_dict["Centroid_x"]=  np.round(Xs[Keys_index])
