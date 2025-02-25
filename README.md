@@ -89,6 +89,10 @@ python Predict.py --Scan_name test_1.nii --Experiment_name Experiment --Device c
 ```
 This will start executing the code for scan *"test_1.nii"* and create a folder *"Experiment"* in the *"Path_to_storage"* directory in which all the results will be stored. A description of the other arguments that this function can use are described below: 
 
+<details>
+
+<summary> All Input Arguments </summary>
+
 - ``` --Scan_name ``` :  The name of the scan and the annotation file on which the code will be applied ``` (no Default)``` 
 - ``` --Experiment_name ``` :  The name of the folder in which all the results will be stored (```Default= Experiment```)
 - ``` --Device ``` :  CUDA device, i.e., '0' or '0,1,2,3' or 'cpu' (```Default= cpu```)
@@ -109,6 +113,8 @@ This will start executing the code for scan *"test_1.nii"* and create a folder *
 ** = To put these arguments in effect, simply add them as arguments to the input data
 
 Note that if you run this code multiple times, it will create new folders called ```Experiment_x``` with x going up to 10 to prevent overwriting previous results. 
+</details>
+
 </details>
 
 <details>
