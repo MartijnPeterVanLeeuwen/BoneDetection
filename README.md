@@ -94,7 +94,7 @@ This will start executing the code for scan *"test_1.nii"* and create a folder *
 <summary> All Input Arguments </summary>
 
 - ``` --Scan_name ``` :  The name of the scan and the annotation file on which the code will be applied ``` (no Default)```
-- ```--Label_name```: The name of the label file that contains the annotations. If this argument is not explicitly called, the label file name is assumed to equal the scan file name (```Default= None```).
+- ```--Label_name```: The name of the annotation file that contains the labeled bone abnormalities. If this argument is not explicitly called, the label file name is assumed to equal the scan file name (```Default= None```).
 - ``` --Experiment_name ``` :  The name of the folder in which all the results will be stored (```Default= Experiment```)
 - ``` --Device ``` :  CUDA device, i.e., '0' or '0,1,2,3' or 'cpu' (```Default= cpu```)
 - ``` --Slices ``` :  Number of slices per plane on which you want to run the models (```Default= 3```)
