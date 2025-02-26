@@ -19,6 +19,7 @@ current_wd= os.getcwd()
 parser = argparse.ArgumentParser(description="Execute Inference")
 
 parser.add_argument("--Scan_name", type=str, help="Name of the scan in the CT and Label folder that should be processed")
+parser.add_argument("--Label_name", type=str, help="Name of the file that contains the bone abnormality data",default=None)
 parser.add_argument("--Experiment_name", type=str, help="The name that should be assigned to the experiment",default="Experiment")
 parser.add_argument("--Device", help="The selected GPU on which will be used during inference, or type 'cpu'",default='cpu')
 parser.add_argument("--Slices", type=int, help="The number of slices per plane on which you want to run inference",default=3)
@@ -52,6 +53,8 @@ if __name__ == "__main__":
 
     patient_folder=os.path.join(paths["Path_to_storage"],args.Experiment_name)
 
+    if args.Label_name==None:
+        args.Label_name=args.Scan_name
 
     if args.No_inference==False:
         patient_folder=Check_storage_dir(patient_folder)
@@ -120,7 +123,7 @@ if __name__ == "__main__":
 
     Summary_df=Create_summary_results(Summary_dict,patient_folder,Path_to_transformed_lesion_label_overview,path_to_bone_switch_label,path_to_bone_types,Switch_orientation=Switch_orientation,Reduce_label=args.Reduce_labels)
 
-    Create_nii_output(paths['Path_to_abnormalities'],args.Scan_name,patient_folder,Summary_df,Rotate=args.Rotate_input, Flip=args.Flip_input)
+    Create_nii_output(paths['Path_to_abnormalities'],args.Label_name,patient_folder,Summary_df,Rotate=args.Rotate_input, Flip=args.Flip_input)
 
     Cleanup_folder(patient_folder,Remove_segmentation_folders=args.Finalize_inference)
 

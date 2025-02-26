@@ -3,9 +3,9 @@ from utils.PostProcessing.Return_label_functions import Return_label_dict
 from utils.PreProcessing.Loading_and_saving_data import Data_processing
 Functions=Data_processing()
 
-def Create_nii_output(Path_to_label,File_name,Patient_folder,Summary_df,Rotate,Flip):
+def Create_nii_output(Path_to_label,Label_name,Patient_folder,Summary_df,Rotate,Flip):
 
-    Label,Header=Functions.Loading_Nifti_data(Path_to_label,File_name,Mute=True)
+    Label,Header=Functions.Loading_Nifti_data(Path_to_label,Label_name,Mute=True)
     centroids=[]
     labels=[]
 

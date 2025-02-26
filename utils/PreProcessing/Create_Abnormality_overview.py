@@ -7,7 +7,7 @@ from utils.PostProcessing.Return_label_functions import Return_label_dict
 from utils.Packages_file import *
 Functions=Data_processing()
 
-def Create_Abnormality_overview(Scan_name,Path_to_desired_labels,Path_to_Segmentations,Path_to_storage,rotation=False,flip=False):
+def Create_Abnormality_overview(Label_name,Path_to_desired_labels,Path_to_Segmentations,Path_to_storage,rotation=False,flip=False):
 
     Path_to_storage=os.path.join(Path_to_storage,'Annotation_info')
 
@@ -24,7 +24,7 @@ def Create_Abnormality_overview(Scan_name,Path_to_desired_labels,Path_to_Segment
         Dictionary={}
         Patient_dictionary={}
 
-        Image,Header=Functions.Loading_Nifti_data(Path_to_Segmentations,Scan_name,Mute=True)
+        Image,Header=Functions.Loading_Nifti_data(Path_to_Segmentations,Label_name,Mute=True)
 
         if flip:
             Image=[np.flip(Image[0],flip)]

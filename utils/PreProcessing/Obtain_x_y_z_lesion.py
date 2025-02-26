@@ -11,14 +11,14 @@ from utils.PreProcessing.Loading_and_saving_data import Data_processing
 
 Functions=Data_processing()
 
-def Obtain_x_y_z_lesion(Path_to_Label, Path_to_lesion_label_overview, File_name,Patient_folder,rotation=False,flip=False):
+def Obtain_x_y_z_lesion(Path_to_Label, Path_to_lesion_label_overview, Label_name,Patient_folder,rotation=False,flip=False):
 
     with open(Path_to_lesion_label_overview, 'r') as file:
         Label_dictionary_overview = json.load(file)
 
     Lesion_overview=Label_dictionary_overview
 
-    Annotation,Header=Functions.Loading_Nifti_data(Path_to_Label,File_name,Mute=True)
+    Annotation,Header=Functions.Loading_Nifti_data(Path_to_Label,Label_name,Mute=True)
 
     if flip!= False:
         Annotation=[np.flip(Annotation[0],flip)]
