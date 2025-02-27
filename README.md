@@ -186,7 +186,7 @@ The ground truth images are structured in a certain format:   ```1_1_-1_test_1_x
                  ├── 2_1_-1_test_1_x_y_z.png       ├── ...  
                  ├── ...
 ```  
-This folder contains the raw YOLOv5 output, including the prediction images and the label files. These outputs are included for each plane. If you do not want to have the PNG images stored, use the ``` --Dont_save_prediction_images ``` command when running the code.
+This folder contains the raw YOLOv5 output, including the prediction images and the label files describing the bounding boxes' location and label. These outputs are included for each plane. If you do not want to have the PNG images stored, use the ``` --Dont_save_prediction_images ``` command when running the code.
 
 </details>
 
