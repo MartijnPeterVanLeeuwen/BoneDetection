@@ -6,8 +6,7 @@ On this page, we will explain what this method is capable of doing and provide i
  If you decide to make use of this method, please cite our paper [link]()
 
 ![Affected_Bones](https://github.com/user-attachments/assets/d931d1bb-9668-4da4-8730-1b7b68ec0f9e)
-![Affected_Bones](https://github.com/user-attachments/assets/457b6a60-6978-4666-a9fd-fa2006e3200a)
-
+![Affected_Bones](https://github.com/user-attachments/assets/c0436b66-c9d5-4e7b-990b-056f6fc0c3de)
 
 ## What can this GitHub be used for? 
 This method was designed to identify the locations of bone abnormalities such as bone lesions, tumors, or fractures. By providing a segmentation mask in which all the voxels of these abnormalities are annotated, in combination with the corresponding CT scan, we can automatically give the bone in which the abnormalities are located. The bones that can be detected with this method is shown below:
