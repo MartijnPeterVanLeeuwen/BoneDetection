@@ -43,6 +43,6 @@ def Create_nii_output(Path_to_label,Label_name,Patient_folder,Summary_df,Rotate,
     if Flip:
         Labeled_annotations=np.flip(Labeled_annotations,flip)
 
-    Functions.Save_image_data_as_nifti(Patient_folder,'Labeld_annotation_file.nii',Labeled_annotations.astype(int),Header=Header[0],Mute=True)
+    Functions.Save_image_data_as_nifti(Patient_folder,'Labeled_annotation_file.nii',Labeled_annotations.astype(int),Header=Header[0],Mute=True)
 
     return None

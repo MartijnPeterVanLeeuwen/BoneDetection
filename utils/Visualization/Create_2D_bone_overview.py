@@ -30,8 +30,6 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
 
     if Exclude_Costal_Cartlidge==True:
         Swapped_lab[np.where(Swapped_lab==3)]=0
-    else:
-        Swapped_lab[np.where(Swapped_lab==3)]=0.05
 
     bone_masks=np.zeros((Swapped_lab.shape))
     empty_vol=np.zeros(Swapped_lab.shape)
@@ -43,8 +41,12 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
         Approved=False
         coordinates=np.array(np.where(Swapped_lab==Affected_bones[i]))
         attempt=0
+
         while Approved==False:
-            max_depth=np.argmax(coordinates[0,:])
+            if Affected_bones[i]==34:
+                max_depth=np.argmin(coordinates[0,:])
+            else:
+                max_depth=np.argmax(coordinates[0,:])
 
             Coordinate_intensity_neighbour=Swapped_lab[coordinates[0][max_depth]-3:coordinates[0][max_depth]+5,
                                             coordinates[1][max_depth]-3:coordinates[1][max_depth]+5,
@@ -70,8 +72,6 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
         centroid_affected_bones.append(Selected_coordinates)
         empty_vol[coordinates[0,:],coordinates[1,:],coordinates[2,:]]+=0.33
 
-    #sorted_labels = [val for _, val in sorted(zip(centroid_affected_bones, All_labels),reverse=True)]
-
     sorted_centroids = sorted(centroid_affected_bones, key=lambda x: x[1])
 
     init=0
@@ -79,6 +79,7 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
     Done=[]
     Side=[]
     previous_side=0
+
     for i in range(len(sorted_centroids)):
 
         if sorted_centroids[i][3] not in Done:
@@ -94,7 +95,6 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
             else:
                 Side.append(0)
                 previous_side=0
-
 
             b0=bone_label
 
