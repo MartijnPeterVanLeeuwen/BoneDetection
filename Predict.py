@@ -79,7 +79,7 @@ if __name__ == "__main__":
                                 rotation=args.Rotate_input, flip=args.Flip_input)
 
     #Transform the annotation file so that each abnormality has a unique integer value. The centroids are also scaled so that they fit with a scaling of [1.5,1.5,1.5]
-    Annotation=Obtain_x_y_z_lesion(paths['Path_to_abnormalities'], Path_to_lesion_label_overview, args.Scan_name, patient_folder,
+    Annotation=Obtain_x_y_z_lesion(paths['Path_to_abnormalities'], Path_to_lesion_label_overview, args.Label_name, patient_folder,
                                 rotation=args.Rotate_input, flip=args.Flip_input)
 
     #The next section is run when the "args.No_inference" is not called.
