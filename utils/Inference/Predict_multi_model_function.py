@@ -19,9 +19,8 @@ from matplotlib import image
 Functions=Data_processing()
 
 def Predict_multi_model_function(Path_to_CT,Label,Name_scan,Path_to_yolo_folder,Patient_ID,Path_to_main_folder,Path_to_weights,
-                                 Total_number_of_slices=3,GPU=0,L=400,W=1800,Min_size_im=548,Max_size_im=757,
-                                rotation=False,flip=False,IOU_threshold=0.45,MODELS=["Axial","Sagital","Coronal"],
-                                Dont_save_prediction_images=False):
+                                 Total_number_of_slices=3,GPU=0,L=400,W=1800, rotation=False,flip=False,IOU_threshold=0.45,
+                                 MODELS=["Axial","Sagital","Coronal"], Dont_save_prediction_images=False):
 
     Path_to_storage=os.path.join(Path_to_yolo_folder,"Temporary_input")
 
