@@ -1,9 +1,9 @@
 # Code used in the paper
 
-This directory contains several subdirectories that contain snippets of the code used in the paper ......... Note that these are not directly executable, but are added here to provide additional clarity on how the input for the bone detection model was generated. If the research needs to be reproduced, these folders contain the code that allows you to do so, although you must organize them yourself. 
+This directory contains several subdirectories that contain snippets of the code used in the paper ......... Note that these are not directly executable, but are added here to provide additional clarity on how the input for the bone detection model was generated. If you would like to reproduce our research, these folders contain the code that allows you to do so, although you must organize them yourself. 
 
 With the code provided in this directory, you can do the following things:
-- Combine the bone labels in the TotalSegmentator dataset into 1 file containing multiple bone labels.  [link](https://github.com/ultralytics/yolov5)
+- Combine the bone labels in the TotalSegmentator dataset into 1 file containing multiple bone labels.  [link](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/code_paper/preprocess_TotalSegmentator_scans/Combine_label_files.py)
 - Preprocess the bone masks and CT scans to create an input suitable for YOLOv5 [link](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/code_paper/preprocessing_yolo_input/Main_preprocessing_file.py)
 - Generate synthetic circular lesions in the combined bone masks. [link](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/code_paper/preprocess_TotalSegmentator_scans/generate_synthetic_lesion/CreateDummyLesions.py)
 - Fill these synthetic circular lesions with Hounsfield units, often observed in osteolytic lesions [link](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/code_paper/preprocess_TotalSegmentator_scans/generate_synthetic_lesion/Fill_dummy_lesions.py)
