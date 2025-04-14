@@ -54,9 +54,9 @@ An example of how such a directory structure looks like is shown below. Note tha
 ├── ...
 ```
 
-An example of a CT scan and manually created bone abnormality annotations are included in [example_data.zip](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/example_data.zip) This is an example scan that was downloaded from the [TotalSegmenator dataset](https://zenodo.org/records/10047292)
+An example of a CT scan and manually created bone abnormality annotations are included in [example_data.zip](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/example_data.zip). This is an example scan that was downloaded from the [TotalSegmenator dataset](https://zenodo.org/records/10047292). The code was developed to process images that have a field of view in the x and y direction of 1.5x448=672mm and in the z direction of 1.5x672=1.008mm. When using larger scans as an input, this code will return an error message. Make sure that the sizes of the scans that are inputted do not exceed these field of view values! 
 
-Your data must have the same orientation as the data in the example data for the code to properly run. For instance, when running this data on the [RibFrac](https://ribfrac.grand-challenge.org/) you will need to rotate the input data 180 degrees before running the code as the orientation of these scans does not align with the orientation that we use in our code. 
+Your data must have the same orientation as the data in the example data for the code to properly run. For instance, when running this data on the [RibFrac](https://ribfrac.grand-challenge.org/), you will need to rotate the input data 180 degrees before running the code as the orientation of these scans does not align with the orientation that we use in our code. 
 
 ## How to run the code on your data
 Below you can find instructions on how to install and run the code from this GitHub on your device.
@@ -86,7 +86,7 @@ When the git repository has been cloned, the paths file has been updated, and th
 ```
 python Predict.py --Scan_name test_1.nii --Experiment_name Experiment --Device cpu --Slices 5
 ```
-This will start executing the code for scan *"test_1.nii"* and create a folder *"Experiment"* in the *"Path_to_storage"* directory in which all the results will be stored. A description of the other arguments that this function can use are described below: 
+This will start executing the code for scan *"test_1.nii"* and create a folder *"Experiment"* in the *"Path_to_storage"* directory in which all the results will be stored. A description of the other arguments that this function can use is described below: 
 
 <details>
 
