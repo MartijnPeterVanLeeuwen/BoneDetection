@@ -7,7 +7,6 @@ sys.path.append(Main_folder)
 
 from utils.PreProcessing.Loading_and_saving_data import Data_processing
 from utils.Packages_file import *
-from code_paper.preprocess_TotalSegmentator_scans.Return_label_functions import Return_label_dict
 
 Functions=Data_processing()
 
