@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 from numpy import asarray
 import random
+
 def Create_plot(Path_to_image,Path_to_label,Save_dir):
 
     im_frame = Image.open(Path_to_image)

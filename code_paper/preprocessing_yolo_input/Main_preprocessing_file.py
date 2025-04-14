@@ -1,31 +1,33 @@
 import os
 import sys
-from SETUPDIR import Set_up_dir
+import random
+from matplotlib import image
 import nibabel as nib
+
 
 Current_directory = os.getcwd()
 Main_folder = "/".join(Current_directory.split("/")[0:-2])  # Linux
 sys.path.append(Main_folder)
 
-from CODE_Totalsegmenter.Data_exploration.Return_desired_scans import Return_desired_patients
-from CODE_Unet.General_Functions_Preprocessing.Loading_and_saving_data import Data_processing
+from utils.PreProcessing.Loading_and_saving_data import Data_processing
+from utils.Packages_file import *
 from Packages_file import *
-import random
-from matplotlib import image
-from Create_txt_label import Create_txt_label
-from Split_patients import Split_patients
-from Move_data import Move_patients
-from Swap_axis import Swap_axis
+
 Functions=Data_processing()
-Data_exploration_path =os.path.join(Main_folder,"CODE_Totalsegmenter")
-sys.path.append(Data_exploration_path)
-from Data_exploration.Return_label_functions import Return_label_dict
+from code_paper.preprocess_TotalSegmentator_scans import Return_label_dict
+
+from SETUPDIR import Set_up_dir
 from Create_yaml_file import Create_yaml_file
 from Swap_axis import Swap_axis
 from Rescale_dimension_scan import Rescale_scan
 from Determine_test_split import Determine_data_splittage
 from Apply_windowing import Apply_windowing
 from Reshape_scan_size import Reshape_scan_size
+from Split_patients import Split_patients
+from Move_data import Move_patients
+from Swap_axis import Swap_axis
+from Create_txt_label import Create_txt_label
+
 class PreProcess():
 
     def __init__(self,Path_to_storage,Path_to_CT_scans,Path_to_Labels,seed=123,Label_values=[1],Resize=False,
@@ -199,7 +201,6 @@ Label_dict=Return_label_dict(Path_to_label_txt)
 Label_values=list(Label_dict.values())
 Create_yaml_file(Path_to_yolo_folder,Label_dict=Label_dict,name_experiment=Experiment_name)
 Patient_nr_index=1
-#Desired_patients=Return_desired_patients("/home/mleeuwen/DATA/Reshaped_dataset_TSv2/Bone_overview.xlsx",[1,6])
 
 L=400
 W=1800
