@@ -1,20 +1,20 @@
 import os
 import sys
-import nibabel as nib
 
 Current_directory = os.getcwd()
-Main_folder = "/".join(Current_directory.split("/")[0:-2])  # Linux
+Main_folder = "/".join(Current_directory.split("/")[0:-3])  # Linux
 sys.path.append(Main_folder)
 
-from CODE_Unet.General_Functions_Preprocessing.Loading_and_saving_data import Data_processing
-from Packages_file import *
+from utils.PreProcessing.Loading_and_saving_data import Data_processing
+from utils.Packages_file import *
+from code_paper.preprocess_TotalSegmentator_scans.Return_label_functions import Return_label_dict
+
 Functions=Data_processing()
-Data_exploration_path =os.path.join(Main_folder,"CODE_Totalsegmenter")
-sys.path.append(Data_exploration_path)
-from Data_exploration.Return_label_functions import Return_label_dict
 
 def Create_sphere_coords(Input_volume,cx,cy,cz, radius, resolution=20):
-
+    """
+    This function creates a sphere at a specified coordinate, with a specific size and resolution.
+    """
     for ii in range(radius):
         r=ii
         phi = np.linspace(0, 2*np.pi, 2*resolution)
@@ -41,8 +41,10 @@ def Create_sphere_coords(Input_volume,cx,cy,cz, radius, resolution=20):
                         continue
     return Input_volume
 
-def CreateDummyLesions(Path_to_images,Path_to_labels,Path_to_storage,Filename,Lesions_per_bone,Percentage_bone=0.1,radius=10):
-
+def CreateDummyLesions(Path_to_images,Path_to_labels,Path_to_storage,Filename,Lesions_per_bone=1,Percentage_bone=0.75,radius=np.ceil(10/1.5).astype(int):
+    """
+    This function makes use of the complete bone labels to generate a binary file that contains synthetic spherical lesions with a specific radius.
+    """
     CT,Header=Functions.Loading_Nifti_data(Path_to_images,Filename,Mute=True)
     Label,Header=Functions.Loading_Nifti_data(Path_to_labels,Filename,Mute=True)
 
@@ -97,35 +99,9 @@ def CreateDummyLesions(Path_to_images,Path_to_labels,Path_to_storage,Filename,Le
                     Total_attempts+=1
                     if Total_attempts>100:
 
-
                         Check=False
     Functions.Save_image_data_as_nifti(Path_to_storage,Filename,Dummy_lesion_volume.astype(int),Header=Header[0] )
 
     Dummy_lesion_volume=1
 
     return Dummy_lesion_volume
-
-
-radius=10
-Percentage_bone=0.75
-No_lesions_perbone=1
-radius_mm=10 #radius_mm
-pixels=np.ceil(radius_mm/1.5).astype(int)
-radius=pixels
-Path_to_input_images="/home/mleeuwen/DATA/TSv3_Selection/Images"
-Path_to_input_labels="/home/mleeuwen/DATA/TSv3_Selection/Labels"
-Path_to_storage="/home/mleeuwen/DATA/TSv3_Selection/New_dummy_lesions_test_20mm"
-if os.path.isdir(Path_to_storage)==False:
-    os.mkdir(Path_to_storage)
-
-Path_to_test_patients_TotalSegmentator="/home/mleeuwen/Deep learning Models/Total_bone_detector/datasets/Axial_BSv2_v5/test/images"
-ALl_test_images=os.listdir(Path_to_test_patients_TotalSegmentator)
-All_test_images=np.unique(["Scan_%s.nii"%i.split("_")[1] for i in ALl_test_images])
-
-Filenames=All_test_images
-
-for files in tqdm(range(len(Filenames))):
-        print(Filenames[files])
-        print(Filenames[files])
-        if Filenames[files] not in os.listdir(Path_to_storage):
-            Dummy_lesion_volume= CreateDummyLesions(Path_to_input_images,Path_to_input_labels,Path_to_storage,Filenames[files],No_lesions_perbone,radius=radius,Percentage_bone=Percentage_bone)
