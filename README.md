@@ -79,7 +79,7 @@ After cloning the git repository, create a new virtual environment in which you 
 pip install -r /Requirements.txt
 ```
 
-**IMPORTANT**: After installing the packages, you need to clone the [YOLOv5](https://github.com/ultralytics/yolov5) directory into this [folder]([https://ribfrac.grand-challenge.org/](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/tree/main/utils/Model)). Without this step, the code will not run!
+**IMPORTANT**: After installing the packages, you need to clone the [YOLOv5](https://github.com/ultralytics/yolov5) directory into this [folder](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/tree/main/utils/Model). Without this step, the code will not run!
 
 </details>
 
