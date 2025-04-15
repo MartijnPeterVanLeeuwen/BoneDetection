@@ -33,7 +33,7 @@ The method also provides the exact bone level in which the abnormality is locate
 </details>
 
 ## What do you need to run it? 
-Not much is the answer! To execute this code, you do not need expensive hardware, as you can run it on your laptop. However, the process is, of course, sped up whenever you run it with a GPU. In terms of data, you will need a CT scan in combination with a segmentation mask (of the same size) in which the voxels of the bone abnormality are annotated.  
+To execute this code, you do not need expensive hardware, as you can easily run it on a CPU, although the process is sped up whenever you run it with a GPU. In terms of data, you will need a CT scan in combination with a segmentation mask (of the same size) in which the voxels of a bone abnormality are annotated.  
 
 
 
