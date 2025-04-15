@@ -60,10 +60,11 @@ An example of a CT scan and manually created bone abnormality annotations are in
 
 **IMPORTANT**: The code was developed to process images that have a field of view in the x and y direction of 1.5x448=672mm and in the z direction of 1.5x672=1.008mm. When using larger scans as an input, this code will return an error message. Make sure that the sizes of the scans that are inputted do not exceed these field of view values! 
 
-Your data must have the same orientation as the data in the example data for the code to properly run. For instance, when running this data on the [RibFrac](https://ribfrac.grand-challenge.org/), you will need to rotate the input data 180 degrees before running the code as the orientation of these scans does not align with the orientation that we use in our code. 
+Your data must have the same orientation as the data in the example data for the code to run properly. For instance, when running this data on the [RibFrac](https://ribfrac.grand-challenge.org/), you will need to rotate the input data 180 degrees before running the code as the orientation of these scans does not align with the orientation that we use in our code. 
 
 ## How to run the code on your data
 Below you can find instructions on how to install and run the code from this GitHub on your device.
+
 <details open>
 
 <summary>Clone repository and install required packages </summary>
@@ -73,11 +74,12 @@ To get started with this code, run the following code
 ```sh
 git clone https://github.com/MartijnPeterVanLeeuwen/BoneDetection.git
 ```
-After cloning the git repository, create a new virtual environment in which you can install the required packages. The code was developed with ```python``` version ```3.9```. Using a different version might lead to conflicts between packages so make sure that the virtual environment runs on this python version. Upon activating this environment and navigating to the git directory, run the following command. 
+After cloning the git repository, create a new virtual environment in which you can install the required packages. The code was developed with ```python``` version ```3.9```. Using a different version might lead to conflicts between packages, so make sure that the virtual environment runs on this Python version. Upon activating this environment and navigating to the git directory, run the following command. 
 ```
 pip install -r /Requirements.txt
 ```
-This will install all the required packages. Note that you do not have to separately download the YOLOv5 directory, we have included it in Github in this [folder](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/tree/main/utils/Model). This code was directly downloaded from the original [YOLOv5](https://github.com/ultralytics/yolov5) GitHub page.
+This will install all the required packages. After installing the packages, you need to clone the [YOLOv5](https://github.com/ultralytics/yolov5) directory into this [folder]([https://ribfrac.grand-challenge.org/](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/tree/main/utils/Model)). 
+
 </details>
 
 
