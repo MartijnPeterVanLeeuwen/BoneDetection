@@ -2,7 +2,7 @@
 
 This directory contains several subdirectories that contain snippets of the code used in the paper ......... Note that these are not directly executable, but are added here to provide additional clarity on how the input for the bone detection model was generated. If you would like to reproduce our research, these folders contain the code that allows you to do so, although you must organize them yourself. 
 
-This directory contains code to do the following things:
+This directory contains code for the following actions:
 - [1](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/code_paper/preprocess_TotalSegmentator_scans/Combine_label_files.py): Combine the bone labels in the TotalSegmentator dataset into 1 file containing multiple bone labels.  
 - [2](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/code_paper/preprocessing_yolo_input/Main_preprocessing_file.py): Preprocess the bone masks and CT scans to create an input suitable for YOLOv5 
 - [3](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/code_paper/preprocess_TotalSegmentator_scans/generate_synthetic_lesion/Create_synthetic_lesions.py): Generate synthetic circular lesions in the combined bone masks. 
