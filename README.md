@@ -33,7 +33,9 @@ For the ribs and the vertebrae, the method also provides the exact bone level in
 </details>
 
 ## What do you need to run it? 
-Not much is the answer! To execute this code, you do not need expensive hardware, as you can run it on your laptop. However, the process is of course sped up whenever you run it with a GPU. In terms of data, you will need a CT scan in combination with a segmentation mask (of the same size) in which the voxels of the bone abnormality are annotated.  
+Not much is the answer! To execute this code, you do not need expensive hardware, as you can run it on your laptop. However, the process is, of course, sped up whenever you run it with a GPU. In terms of data, you will need a CT scan in combination with a segmentation mask (of the same size) in which the voxels of the bone abnormality are annotated.  
+
+
 
 You will need to specify certain directories in [paths.json](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/paths.json) containing the location of a folder that contains the CT scans (```Path_to_input_CT```), the folder that contains the segmentation mask (```Path_to_abnormalities```) and the directory where you want to results to be outputted to (```Path_to_storage```). Both the CT scan and the bone abnormality file must have the same name and must be stored in the following format:
 ```sh
