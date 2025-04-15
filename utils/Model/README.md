@@ -5,7 +5,7 @@ To run the code, you need to clone the YOLOv5 code from this [link](https://gith
 
 ```sh
 ../utils/Model/
-└──classify
+└── classify
 └── data 
 └── models
 └── runs
@@ -14,18 +14,18 @@ To run the code, you need to clone the YOLOv5 code from this [link](https://gith
 └── .dockerignore
 └── .gitattributes
 └── .gitignore
-└── benchmarks
+└── benchmarks.py
 └── CITATION.cff
-└──CONTRIBUTING
-└──detect
-└──export
-└──hubconf
+└── CONTRIBUTING.md
+└── detect.py
+└── export.py
+└── hubconf.py
 └── LICENCE
-└──pyprokect
-└──README
-└──README.zh-CN
-└── requirements
-└──train
-└── tutorial
-└── val
+└── pyproject.toml
+└── README.md
+└── README.zh-CN.md
+└── requirements.txt
+└── train.py
+└── tutorial.ipynb
+└── val.py
 ```
