@@ -29,7 +29,7 @@ This method was designed to identify the locations of bone abnormalities such as
 $^1$: Makes a distinction between bone levels,
 $^2$: Makes a distinction between left and right
 
-For the ribs and the vertebrae, the method also provides the exact bone level in which the abnormality is located. However, the method is less precise when predicting an exact level, but is much better when estimating a range of 3 bone levels (predicted level + neighboring bone levels). We therefore also provide the option to return a range of bone labels for these methods.
+The method also provides the exact bone level in which the abnormality is located for the ribs and vertebrae. However, it is less precise when predicting an exact level but much better when estimating a range of 3 bone levels (predicted level + neighboring bone levels). We, therefore, also provide the option to return a range of bone labels for these methods.
 </details>
 
 ## What do you need to run it? 
@@ -41,7 +41,7 @@ You will need to specify certain directories in [paths.json](https://github.com/
 ```sh
 {PROJECT_ID}_{IMGNR}.nii
 ```
-An example of how such a directory structure looks like is shown below. Note that other formatting types are not recognized and can therefore lead to errors. 
+Below is an example of such a directory structure. Note that other formatting types are not recognized and can, therefore, lead to errors. 
 
 ```sh
 ../Path_to_input_CT/
@@ -56,11 +56,11 @@ An example of how such a directory structure looks like is shown below. Note tha
 ├── ...
 ```
 
-An example of a CT scan and manually created bone abnormality annotations are included in [example_data.zip](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/example_data.zip). This is an example scan that was downloaded from the [TotalSegmenator dataset](https://zenodo.org/records/10047292). 
+An example of a CT scan and manually created bone abnormality annotations is included in [example_data.zip](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/blob/main/example_data.zip). This is an example scan that was downloaded from the [TotalSegmenator dataset](https://zenodo.org/records/10047292). 
 
 **IMPORTANT**: The code was developed to process images that have a field of view in the x and y direction of 1.5x448=672mm and in the z direction of 1.5x672=1.008mm. When using larger scans as an input, this code will return an error message. Make sure that the sizes of the scans that are inputted do not exceed these field of view values! 
 
-Your data must have the same orientation as the data in the example data for the code to run properly. For instance, when running this data on the [RibFrac](https://ribfrac.grand-challenge.org/), you will need to rotate the input data 180 degrees before running the code as the orientation of these scans does not align with the orientation that we use in our code. 
+Your data must have the same orientation as the data in the example data for the code to run properly. For instance, when running this data on the [RibFrac](https://ribfrac.grand-challenge.org/), you will need to rotate the input data 180 degrees before running the code, as the orientation of these scans does not align with the orientation that we use in our code. 
 
 ## How to run the code on your data
 Below you can find instructions on how to install and run the code from this GitHub on your device.
