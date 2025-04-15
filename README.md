@@ -74,11 +74,12 @@ To get started with this code, run the following code
 ```sh
 git clone https://github.com/MartijnPeterVanLeeuwen/BoneDetection.git
 ```
-After cloning the git repository, create a new virtual environment in which you can install the required packages. The code was developed with ```python``` version ```3.9```. Using a different version might lead to conflicts between packages, so make sure that the virtual environment runs on this Python version. Upon activating this environment and navigating to the git directory, run the following command. 
+After cloning the git repository, create a new virtual environment in which you can install the required packages. The code was developed with ```python``` version ```3.9```. Using a different version might lead to conflicts between packages, so make sure that the virtual environment runs on this Python version. Upon activating this environment and navigating to the git directory, run the following command to install all the required packages. 
 ```
 pip install -r /Requirements.txt
 ```
-This will install all the required packages. After installing the packages, you need to clone the [YOLOv5](https://github.com/ultralytics/yolov5) directory into this [folder]([https://ribfrac.grand-challenge.org/](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/tree/main/utils/Model)). 
+
+**IMPORTANT**: After installing the packages, you need to clone the [YOLOv5](https://github.com/ultralytics/yolov5) directory into this [folder]([https://ribfrac.grand-challenge.org/](https://github.com/MartijnPeterVanLeeuwen/BoneDetection/tree/main/utils/Model)). Without this step, the code will not run!
 
 </details>
 
