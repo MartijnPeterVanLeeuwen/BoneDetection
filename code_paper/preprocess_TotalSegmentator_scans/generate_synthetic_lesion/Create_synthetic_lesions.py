@@ -40,7 +40,7 @@ def Create_sphere_coords(Input_volume,cx,cy,cz, radius, resolution=20):
                         continue
     return Input_volume
 
-def CreateDummyLesions(Path_to_images,Path_to_labels,Path_to_storage,Filename,Lesions_per_bone=1,Percentage_bone=0.75,radius=np.ceil(10/1.5).astype(int):
+def CreateDummyLesions(Path_to_images,Path_to_labels,Path_to_storage,Filename,Lesions_per_bone=1,Percentage_bone=0.75,radius=np.ceil(10/1.5).astype(int)):
     """
     This function makes use of the complete bone labels to generate a binary file that contains synthetic spherical lesions with a specific radius.
     """

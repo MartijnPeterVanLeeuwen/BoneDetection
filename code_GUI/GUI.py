@@ -3,6 +3,21 @@ from tkinter import filedialog, messagebox, Menu, ttk
 import nibabel as nib
 import numpy as np
 from PIL import Image, ImageTk
+import sys
+import os
+from Exectute_generation_lesions import Create_sphere
+
+cwd="\\".join(os.getcwd().split('\\')[:-1])
+sys.path.append(cwd)
+print(os.listdir(cwd))
+from utils.Packages_file import *
+from code_paper.preprocess_TotalSegmentator_scans.Return_label_functions import *
+from code_paper.preprocess_TotalSegmentator_scans.generate_synthetic_lesion.Create_synthetic_lesions import Create_sphere_coords
+from code_paper.preprocess_TotalSegmentator_scans.generate_synthetic_lesion.Fill_synthetic_lesions import *
+from code_paper.preprocessing_yolo_input.Apply_windowing import *
+
+
+
 
 class NiftiViewerApp:
     def __init__(self, root):
@@ -18,6 +33,7 @@ class NiftiViewerApp:
         self.slice_index = 0
         self.annotation_mode = False
         self.annotations = []  # list of world coordinates
+        self.annotations_raw=[]
         self.annotation_ids = []  # link table rows to annotations
 
         self.create_widgets()
@@ -51,7 +67,9 @@ class NiftiViewerApp:
         self.annotate_button = tk.Button(btn_frame, text="Annotate", bg="#0f5f74", fg="white", width=15, command=self.enable_annotation)
         self.annotate_button.pack(side=tk.LEFT, padx=5, pady=5)
 
-        tk.Button(btn_frame, text="Generate Lesions", bg="#0f5f74", fg="white", width=15).pack(side=tk.LEFT, padx=5, pady=5)
+        self.generate_lesion_button=tk.Button(btn_frame, text="Generate Lesions", bg="#0f5f74", fg="white", width=15,
+                                    command=self.Generate_synthetic_lesions).pack(side=tk.LEFT, padx=5, pady=5)
+
         tk.Button(btn_frame, text="Run", bg="#333", fg="white", width=10).pack(side=tk.LEFT, padx=10)
 
         canvas_frame = tk.Frame(left_frame)
@@ -124,6 +142,9 @@ class NiftiViewerApp:
                 self.log(f"Loading CT: {filepath}")
                 img = nib.load(filepath)
                 data = img.get_fdata()
+
+                data=Apply_windowing(data,L=400,W=1800,Mute=True)
+
                 self.ct_affine = img.affine
                 self.No_slices=img.shape[-1]
                 if data.ndim == 4:
@@ -154,6 +175,14 @@ class NiftiViewerApp:
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to load mask:\n{e}")
                 self.log(f"Error: {e}")
+
+    def Generate_synthetic_lesions(self):
+        if self.ct_data is not None:
+            Created_spheres=Create_sphere(self,self.annotations,self.annotations_raw)
+            self.ct_data=self.ct_data+Created_spheres[1]*2.5
+            print('generate lesions')
+            self.show_slice()
+        return None
 
     def show_slice(self):
         if self.ct_data is not None:
@@ -195,8 +224,9 @@ class NiftiViewerApp:
         self.slice_index = np.clip(self.slice_index + direction * 3, 0, self.ct_data.shape[0] - 1)
         self.scroll_via_bar(["movetoslice",self.slice_index])
         self.scrollbar.set((self.slice_index)/self.No_slices,(self.slice_index)/self.No_slices)
-        print(self.slice_index)
         self.show_slice()
+
+
 
     def scroll_via_bar(self, *args):
 
@@ -240,8 +270,11 @@ class NiftiViewerApp:
         y_voxel, x_voxel = np.rot90(np.array([[x_rotated, y_rotated]]), k=1)
         z_voxel = self.slice_index
 
+        print(x_rotated,y_rotated)
+
         voxel_coords = (z_voxel, y_voxel[0], x_voxel[0])
         self.annotations.append(voxel_coords)
+        self.annotations_raw.append((z_voxel,y_rotated,slice_data.shape[0]-x_rotated))
         idx = len(self.annotations)
         self.annotation_ids.append(self.tree.insert("", tk.END, values=(idx, "", "")))
 
@@ -254,6 +287,7 @@ class NiftiViewerApp:
             index = self.tree.index(row_id)
             self.tree.delete(row_id)
             del self.annotations[index]
+            del self.annotations_raw[index]
             del self.annotation_ids[index]
             self.log(f"Removed annotation #{index + 1}")
 
