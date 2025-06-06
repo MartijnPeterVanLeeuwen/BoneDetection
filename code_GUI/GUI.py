@@ -178,10 +178,12 @@ class NiftiViewerApp:
 
     def Generate_synthetic_lesions(self):
         if self.ct_data is not None:
-            Created_spheres=Create_sphere(self,self.annotations,self.annotations_raw)
-            self.ct_data=self.ct_data+Created_spheres[1]*2.5
+            Synthetic_lesions,Synthetic_CT=Create_sphere(self,self.annotations,self.annotations_raw,self.ct_data)
+            self.ct_data=Synthetic_CT
             print('generate lesions')
             self.show_slice()
+            self.log("Synthetic Lesions Generated")
+
         return None
 
     def show_slice(self):
