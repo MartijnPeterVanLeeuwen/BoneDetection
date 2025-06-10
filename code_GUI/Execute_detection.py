@@ -1,8 +1,10 @@
 import sys
 import os
+from report_results_in_gui import Report_prediction_results
 current_wd="\\".join(os.getcwd().split('\\')[:-1])
 sys.path.append(current_wd)
 import shutil
+
 from utils.Packages_file import *
 from utils.Inference.Move_input_to_yolo_folder import Move_input_to_yolo_folder
 from utils.Inference.Move_input_back import Move_input_back
@@ -26,11 +28,12 @@ def Run_Inference(Storage_dir="C:\\Users\\mleeuwen\\Demo",
                     Rotate_input=False,
                     Label_name="Synthetic_lesion.nii",
                     Device='cpu',
-                    Slices=3,
+                    Slices=5,
                     Minimal_TH=0.75,
                     Finalize_inference=False,
                     Switch_left_right=False,
-                    No_inference=False,):
+                    No_inference=False,
+                    class_structure=None):
 
     Path_to_CT=Storage_dir
     Path_to_Label=Storage_dir
@@ -107,5 +110,7 @@ def Run_Inference(Storage_dir="C:\\Users\\mleeuwen\\Demo",
 
     #If no further finetuning is required, you can remove all the irrelant files.
     Cleanup_folder(patient_folder,Remove_segmentation_folders=Finalize_inference)
+
+    Report_prediction_results(class_structure)
 
     print("======================== Succesfully Concluded Inference Script  ======================== ")
