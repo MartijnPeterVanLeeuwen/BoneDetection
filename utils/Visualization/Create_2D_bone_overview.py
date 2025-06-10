@@ -41,36 +41,36 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
         Approved=False
         coordinates=np.array(np.where(Swapped_lab==Affected_bones[i]))
         attempt=0
+        if len(coordinates)>0:
+            while Approved==False:
+                if Affected_bones[i]==34:
+                    max_depth=np.argmin(coordinates[0,:])
+                else:
+                    max_depth=np.argmax(coordinates[0,:])
 
-        while Approved==False:
-            if Affected_bones[i]==34:
-                max_depth=np.argmin(coordinates[0,:])
-            else:
-                max_depth=np.argmax(coordinates[0,:])
+                Coordinate_intensity_neighbour=Swapped_lab[coordinates[0][max_depth]-3:coordinates[0][max_depth]+5,
+                                                coordinates[1][max_depth]-3:coordinates[1][max_depth]+5,
+                                               coordinates[2][max_depth]-3:coordinates[2][max_depth]+5]
 
-            Coordinate_intensity_neighbour=Swapped_lab[coordinates[0][max_depth]-3:coordinates[0][max_depth]+5,
-                                            coordinates[1][max_depth]-3:coordinates[1][max_depth]+5,
-                                           coordinates[2][max_depth]-3:coordinates[2][max_depth]+5]
+                unique_labels=np.unique(Coordinate_intensity_neighbour)
+                unique_labels=[i for i in unique_labels if i!=0]
+                Counts=[list(Coordinate_intensity_neighbour.flatten()).count(i) for i in unique_labels]
+                Max_label=unique_labels[np.argmax(Counts)]
 
-            unique_labels=np.unique(Coordinate_intensity_neighbour)
-            unique_labels=[i for i in unique_labels if i!=0]
-            Counts=[list(Coordinate_intensity_neighbour.flatten()).count(i) for i in unique_labels]
-            Max_label=unique_labels[np.argmax(Counts)]
+                if Max_label==Affected_bones[i] and Counts[np.argmax(Counts)]>20:
+                    Approved==True
+                    break
+                else:
+                    coordinates=np.delete(coordinates, (max_depth), axis=1)
+                    attempt+=1
+                if attempt>100:
+                    print('failed to find correct label')
+                    break
 
-            if Max_label==Affected_bones[i] and Counts[np.argmax(Counts)]>20:
-                Approved==True
-                break
-            else:
-                coordinates=np.delete(coordinates, (max_depth), axis=1)
-                attempt+=1
-            if attempt>100:
-                print('failed to find correct label')
-                break
-
-        Selected_coordinates=[coordinates[0][max_depth],coordinates[1][max_depth],coordinates[-1][max_depth]]
-        Selected_coordinates.append(Affected_bones[i])
-        centroid_affected_bones.append(Selected_coordinates)
-        empty_vol[coordinates[0,:],coordinates[1,:],coordinates[2,:]]+=0.33
+            Selected_coordinates=[coordinates[0][max_depth],coordinates[1][max_depth],coordinates[-1][max_depth]]
+            Selected_coordinates.append(Affected_bones[i])
+            centroid_affected_bones.append(Selected_coordinates)
+            empty_vol[coordinates[0,:],coordinates[1,:],coordinates[2,:]]+=0.33
 
     sorted_centroids = sorted(centroid_affected_bones, key=lambda x: x[1])
 

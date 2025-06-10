@@ -9,7 +9,7 @@ from code_paper.preprocess_TotalSegmentator_scans.generate_synthetic_lesion.Fill
 
 
 
-def Create_sphere(class_attribute,list_of_coordinates_code,list_of_coordinates_gui,CT_data):
+def Create_sphere(class_attribute,list_of_coordinates_code,list_of_coordinates_gui,CT_data,Normalize=True):
         Mean_lesion_HU=44.87
         std_lesion_HU=23.89
         L=400
@@ -20,8 +20,7 @@ def Create_sphere(class_attribute,list_of_coordinates_code,list_of_coordinates_g
         for i in range(len(list_of_coordinates_code)):
              coordinate=list_of_coordinates_code[i]
              raw_coordiante_list=list_of_coordinates_gui[i]
-             Annotation_file_gui=Create_sphere_coords(Annotation_file_gui,coordinate[0],coordinate[1],coordinate[2], np.ceil(10/1.5).astype(int), resolution=50)
-             Annotation_file_script=Create_sphere_coords(Annotation_file_script,raw_coordiante_list[0],raw_coordiante_list[2],raw_coordiante_list[1], np.ceil(10/1.5).astype(int), resolution=50)
+             Annotation_file_script=Create_sphere_coords(Annotation_file_script,raw_coordiante_list[0],raw_coordiante_list[2],raw_coordiante_list[1], np.ceil(5/1.5).astype(int), resolution=100)
 
         lesions_regions=regionprops(label(Annotation_file_script>0))
         for ii in lesions_regions:
@@ -29,9 +28,10 @@ def Create_sphere(class_attribute,list_of_coordinates_code,list_of_coordinates_g
 
             min_value=L-(0.5*W)
             max_value=L+(0.5*W)
-
-            normalized_sampled_lesion=(sampled_lesion - min_value)/(max_value-min_value)
-
+            if Normalize:
+                normalized_sampled_lesion=(sampled_lesion - min_value)/(max_value-min_value)
+            else:
+                normalized_sampled_lesion=sampled_lesion
             coordinates=ii.coords
             CT_data[coordinates[:,0],coordinates[:,1],coordinates[:,2]]=normalized_sampled_lesion
 

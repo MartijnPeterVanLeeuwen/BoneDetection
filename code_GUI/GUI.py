@@ -6,30 +6,35 @@ from PIL import Image, ImageTk
 import sys
 import os
 from Exectute_generation_lesions import Create_sphere
+import copy
 
 cwd="\\".join(os.getcwd().split('\\')[:-1])
 sys.path.append(cwd)
 print(os.listdir(cwd))
+
 from utils.Packages_file import *
 from code_paper.preprocess_TotalSegmentator_scans.Return_label_functions import *
 from code_paper.preprocess_TotalSegmentator_scans.generate_synthetic_lesion.Create_synthetic_lesions import Create_sphere_coords
 from code_paper.preprocess_TotalSegmentator_scans.generate_synthetic_lesion.Fill_synthetic_lesions import *
 from code_paper.preprocessing_yolo_input.Apply_windowing import *
-
-
-
+from utils.PreProcessing.Loading_and_saving_data import *
+from Execute_detection import Run_Inference
+Functions=Data_processing()
 
 class NiftiViewerApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Medical Imaging Tool")
+        self.visualize_folder="C:\\Users\\mleeuwen\\Demo",
+        self.Experiment_name='Demo_1'
+        self.visualize_filename="%s\\Affected_Bones.png"%self.Experiment_name,
         self.root.geometry("980x546")
         self.root.configure(bg="#d9d9d9")
-
         self.ct_data = None
         self.ct_affine = None
         self.No_slices=None
         self.mask_data = None
+        self.Synthetic_lesions=None
         self.slice_index = 0
         self.annotation_mode = False
         self.annotations = []  # list of world coordinates
@@ -70,7 +75,7 @@ class NiftiViewerApp:
         self.generate_lesion_button=tk.Button(btn_frame, text="Generate Lesions", bg="#0f5f74", fg="white", width=15,
                                     command=self.Generate_synthetic_lesions).pack(side=tk.LEFT, padx=5, pady=5)
 
-        tk.Button(btn_frame, text="Run", bg="#333", fg="white", width=10).pack(side=tk.LEFT, padx=10)
+        self.Run_button=tk.Button(btn_frame, text="Run", bg="#333", fg="white", width=10,command=self.Run_detection).pack(side=tk.LEFT, padx=10)
 
         canvas_frame = tk.Frame(left_frame)
         canvas_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
@@ -134,6 +139,25 @@ class NiftiViewerApp:
             self.slice_index = z
             self.scroll_via_bar(["movetoslice",self.slice_index])
 
+    def Run_detection(self):
+
+        Path_to_results="C:\\Users\\mleeuwen\\Demo"
+
+        if os.path.isdir(Path_to_results)==False:
+            os.mkdir(Path_to_results)
+
+        Path_to_CT=os.path.join(Path_to_results,"CT")
+
+        reconverted_CT=np.rot90(np.swapaxes(self.original_data,0,2),1,axes=(0,1))
+        reconverted_dummy=np.rot90(np.swapaxes(self.Synthetic_lesions,0,2),1,axes=(0,1))
+
+
+        Functions.Save_image_data_as_nifti(Path_to_results,"CT_1.nii",reconverted_CT,Header=self.header,Mute=True)
+        Functions.Save_image_data_as_nifti(Path_to_results,"Synthetic_lesion.nii",reconverted_dummy.astype(int),Header=self.header,Mute=True)
+
+        Run_Inference(Storage_dir=Path_to_results,Experiment_name=self.Experiment_name)
+
+        return None
 
     def load_ct(self):
         filepath = filedialog.askopenfilename(filetypes=[("NIfTI files", "*.nii *.nii.gz")])
@@ -141,9 +165,8 @@ class NiftiViewerApp:
             try:
                 self.log(f"Loading CT: {filepath}")
                 img = nib.load(filepath)
+                self.header=img.header
                 data = img.get_fdata()
-
-                data=Apply_windowing(data,L=400,W=1800,Mute=True)
 
                 self.ct_affine = img.affine
                 self.No_slices=img.shape[-1]
@@ -151,6 +174,9 @@ class NiftiViewerApp:
                     data = data[:, :, :, 0]
 
                 self.ct_data = np.transpose(data, (2, 0, 1))  # Z, Y, X
+                self.original_data=copy.copy(self.ct_data)
+                self.ct_data=Apply_windowing(self.ct_data,L=400,W=1800,Mute=True)
+
                 self.scrollbar.set((self.ct_data.shape[0]-1)/self.No_slices,(self.ct_data.shape[0]-1)/self.No_slices)
                 self.slice_index = self.ct_data.shape[0] // 2
                 self.scroll_via_bar(["movetoslice",self.slice_index])
@@ -178,8 +204,9 @@ class NiftiViewerApp:
 
     def Generate_synthetic_lesions(self):
         if self.ct_data is not None:
-            Synthetic_lesions,Synthetic_CT=Create_sphere(self,self.annotations,self.annotations_raw,self.ct_data)
-            self.ct_data=Synthetic_CT
+            self.Synthetic_lesions,self.Synthetic_CT=Create_sphere(self,self.annotations,self.annotations_raw,self.ct_data,Normalize=True)
+            self.Synthetic_lesion_v2,self.Original_CT_with_lesion=Create_sphere(self,self.annotations,self.annotations_raw,self.original_data,Normalize=False)
+            self.ct_data=self.Synthetic_CT
             print('generate lesions')
             self.show_slice()
             self.log("Synthetic Lesions Generated")
@@ -190,7 +217,7 @@ class NiftiViewerApp:
         if self.ct_data is not None:
 
             slice_img = self.ct_data[self.slice_index]
-            slice_img = np.rot90(slice_img, k=-1)
+            slice_img = np.rot90(slice_img, k=1)
 
             slice_img = (slice_img - np.min(slice_img)) / (np.max(slice_img) - np.min(slice_img) + 1e-5)
             slice_img = (slice_img * 255).astype(np.uint8)
@@ -212,7 +239,7 @@ class NiftiViewerApp:
                     continue
 
                 # Rotate coordinates to match displayed image
-                rotated_coords = np.rot90(np.array([[x, y]]), k=-1)
+                rotated_coords = np.rot90(np.array([[x, y]]), k=1)
                 x_disp = int(rotated_coords[0] * canvas_width / self.ct_data.shape[2])
                 y_disp = int(rotated_coords[1] * canvas_height / self.ct_data.shape[1])
 
@@ -269,19 +296,37 @@ class NiftiViewerApp:
         y_rotated = int((event.y / canvas_height) * h)
 
         # Rotate back to get correct voxel coordinates
-        y_voxel, x_voxel = np.rot90(np.array([[x_rotated, y_rotated]]), k=1)
+        y_voxel, x_voxel = np.rot90(np.array([[x_rotated, y_rotated]]), k=-1)
         z_voxel = self.slice_index
 
         print(x_rotated,y_rotated)
 
         voxel_coords = (z_voxel, y_voxel[0], x_voxel[0])
         self.annotations.append(voxel_coords)
-        self.annotations_raw.append((z_voxel,y_rotated,slice_data.shape[0]-x_rotated))
+        self.annotations_raw.append((z_voxel,slice_data.shape[1]-y_rotated,x_rotated))
         idx = len(self.annotations)
         self.annotation_ids.append(self.tree.insert("", tk.END, values=(idx, "", "")))
 
         self.log(f"Annotation #{idx} at voxel: {voxel_coords}")
         self.show_slice()
+
+    def visualize_image_window(self):
+        try:
+            image_path = os.path.join(self.visualize_folder, self.visualize_filename)
+            img = Image.open(image_path)
+        except Exception as e:
+            self.log(f"Error loading image: {e}")
+            return
+
+        top = tk.Toplevel(self.root)
+        top.title("Image Visualization")
+
+        img = img.convert("RGB")
+        tk_img = ImageTk.PhotoImage(img)
+
+        label = tk.Label(top, image=tk_img)
+        label.image = tk_img  # Keep reference!
+        label.pack()
 
     def right_click_remove(self, event):
         row_id = self.tree.identify_row(event.y)
