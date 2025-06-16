@@ -28,10 +28,10 @@ def Run_Inference(Storage_dir="C:\\Users\\mleeuwen\\Demo",
                     Rotate_input=False,
                     Label_name="Synthetic_lesion.nii",
                     Device='cpu',
-                    Slices=5,
+                    Slices=10,
                     Minimal_TH=0.75,
                     Finalize_inference=False,
-                    Switch_left_right=False,
+                    Switch_left_right=True,
                     No_inference=False,
                     class_structure=None):
 
@@ -82,10 +82,10 @@ def Run_Inference(Storage_dir="C:\\Users\\mleeuwen\\Demo",
     # If you want to switch the orientation of 'left' and 'right', the argument "args.Switch_left_right" does so.
     if Switch_left_right==False:
         Path_to_label_translation_dict=os.path.join(current_wd,'utils','Bone_labels_pov_patient.json')
-        Switch_orientation=True
+        Switch_orientation=False
     else:
         Path_to_label_translation_dict=os.path.join(current_wd,'utils','Bone_labels_pov_outside.json')
-        Switch_orientation=False
+        Switch_orientation=True
 
     #This file contains the neighbouring bones of each of the bones. The file contains an "Acceptable" and "Unacceptable" key. The "Acceptable" is the neighbour bone, and the "Unacceptable" is the same bone only on the onter side (left/right)
     Path_to_neighbouring_files=os.path.join(current_wd,'utils','Neighbour_file.json')

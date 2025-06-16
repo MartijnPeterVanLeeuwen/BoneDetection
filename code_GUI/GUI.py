@@ -167,16 +167,19 @@ class NiftiViewerApp:
 
         Path_to_CT=os.path.join(Path_to_results,"CT")
 
-        reconverted_CT=np.rot90(np.swapaxes(self.original_data,0,2),1,axes=(0,1))
-        reconverted_dummy=np.rot90(np.swapaxes(self.Synthetic_lesions,0,2),1,axes=(0,1))
+        #reconverted_CT=np.rot90(np.swapaxes(self.original_data,0,2),1,axes=(0,1))
+        #reconverted_dummy=np.rot90(np.swapaxes(self.Synthetic_lesions,0,2),1,axes=(0,1))
+
+        reconverted_CT=np.flip(np.rot90(np.swapaxes(self.original_data,0,2),1,axes=(1,0)),1)
+        reconverted_dummy=np.flip(np.rot90(np.swapaxes(self.Synthetic_lesions,0,2),1,axes=(1,0)),1)
 
 
         Functions.Save_image_data_as_nifti(Path_to_results,"CT_1.nii",reconverted_CT,Header=self.header,Mute=True)
-        Functions.Save_image_data_as_nifti(Path_to_results,"Synthetic_lesion.nii",reconverted_dummy.astype(int),Header=self.header,Mute=True)
-
+        Functions.Save_image_data_as_nifti(Path_to_results,"Synthetic_lesion.nii",reconverted_dummy.astype(int),
+                            Header=self.header,Mute=True)
+        
         Run_Inference(Storage_dir=Path_to_results,Experiment_name=self.Experiment_name,class_structure=self)
-        #self.visualization_button.config(state=tk.NORMAL)
-        #self.Expand_button.config(state=tk.NORMAL)
+
         return None
 
     def load_ct(self):
@@ -224,9 +227,14 @@ class NiftiViewerApp:
     def Generate_synthetic_lesions(self):
         if self.ct_data is not None:
             Path_to_transformation_dict=os.path.join(self.cwd,'utils\\Bone_labels_pov_outside.json')
+
             path_to_labels=os.path.join(self.cwd,'utils\\Desired_labels.txt')
+
             self.Synthetic_lesions,self.Synthetic_CT=Create_sphere(self,self.annotations,self.annotations_raw,
                                 self.ct_data,path_to_labels,Path_to_transformation_dict,Normalize=True)
+            self.Synthetic_lesions_v2,self.original_data=Create_sphere(self,self.annotations,self.annotations_raw,
+                                self.original_data,path_to_labels,Path_to_transformation_dict,Normalize=False,change_table=False)
+
             self.ct_data=self.Synthetic_CT
             print('generate lesions')
             self.show_slice()
@@ -349,7 +357,7 @@ class NiftiViewerApp:
         self.annotation_ids.append(self.tree.insert("", tk.END, values=(idx, "", "")))
 
         voxel_coords=(z_voxel,slice_data.shape[0]-y_rotated,slice_data.shape[1]-x_rotated)
-        self.Annotation_coords_match.append(voxel_coords)
+        self.Annotation_coords_match.append((z_voxel,slice_data.shape[1]-y_rotated,x_rotated))
         self.log(f"Annotation #{idx} at voxel: {voxel_coords}")
         self.show_slice()
 
