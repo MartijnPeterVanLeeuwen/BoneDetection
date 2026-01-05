@@ -3,7 +3,8 @@ Welcome to the GitHub page for our multiplanar bone detection method. This GitHu
 
 On this page, we will explain what this method is capable of doing and provide instructions on how you can get started. One of the outputs that this method produces is shown below, which is a plot that indicates different regions that are affected by the provided bone abnormalities.
 
- If you decide to make use of our method, please cite our paper [link](https://ieeexplore.ieee.org/document/11254481) 
+ If you decide to make use of our method, please cite our [paper](https://ieeexplore.ieee.org/document/11254481)!
+ 
 ```sh
  @inproceedings{van2025automatic,
   title={Automatic Identification of Anatomical Locations for Bone Abnormalities in CT Imaging: A Multiplanar YOLOv5 Detection Approach},
