@@ -26,8 +26,10 @@ def Create_2D_bone_overview(Affected_bones,Neighbouring_bones,Path_to_bone_label
     Reversed_label_dict= {v: k for k, v in Label_dict.items()}
 
     Label,Header=Functions.Loading_Nifti_data(Path_to_bone_labels,"Bone_atlas.nii",Mute=True)
+                               
     Swapped_lab=np.rot90(np.swapaxes(Label[0],0,1),1,axes=(1,2))
-
+    Swapped_lab=np.flip(Swapped_lab,2)
+                               
     if Exclude_Costal_Cartlidge==True:
         Swapped_lab[np.where(Swapped_lab==3)]=0
 
